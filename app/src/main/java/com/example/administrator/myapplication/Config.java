@@ -20,5 +20,5 @@ public class Config {
     //cell 类型
     public final static int NORMAL = 1;
     public final static int BASEINFO = 2;
-    //
+    ////
 }
