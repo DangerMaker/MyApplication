@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/empty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout android:id="@+id/empty_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+<!--
+        <ProgressBar
+            android:id="@+id/empty_progressbar"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="28dp"
+-->
+        <ProgressBar
+            android:id="@+id/empty_progressbar"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorTextGray" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/empty_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_head"
+        android:textColor="#a9a9a9"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+
+</RelativeLayout>

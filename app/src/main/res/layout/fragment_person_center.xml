@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/com.example.administrator.myapplication"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/persion_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/center_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#fff"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/userinfo_photo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                fresco:placeholderImage="@drawable/avatar_default"
+                fresco:placeholderImageScaleType="centerCrop"
+                fresco:roundAsCircle="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/content_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="未登录"
+                    android:textColor="#000"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/content_usermail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户邮箱:"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.example.administrator.myapplication.ui.view.PersonContentItemView
+            android:id="@+id/update_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:isShowImage="false"
+            app:userText="修改邮箱" />
+
+        <com.example.administrator.myapplication.ui.view.PersonContentItemView
+            android:id="@+id/update_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:isShowImage="false"
+            app:userText="修改密码" />
+
+        <com.example.administrator.myapplication.ui.view.PersonContentItemView
+            android:id="@+id/exit_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/white"
+            app:isShowImage="false"
+            app:userText="退出账户" />
+    </LinearLayout>
+</ScrollView>

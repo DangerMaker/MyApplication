@@ -1,0 +1,72 @@
+{
+    "list": [
+        {
+            "ezAction": {
+                "ezActionType": "showPage",
+                "ezTargetClass": "EZWebViewController",
+                "ezTargetData": {
+                    "ezUri": "http://news.163.com/16/0224/15/BGJNKKVU00011229.html"
+                },
+                "ezTargetXib": "EZWebViewController"
+            },
+            "ezContentData": [
+                {
+                    "type": "TextView",
+                    "tag" : "3",
+                    "ezTitle": "从刷爆朋友圈，到餐厅被挤爆的自助餐，@厦门大学勤业餐厅终于“扛不住”了！昨日后勤集团通知，24日起仅接受教工刷卡进入享用。"
+                },
+
+                {
+                    "type": "SimpleDraweeView",
+                    "tag" : "1",
+                    "ezTitle": "http://img5.cache.netease.com/photo/0001/2016-02-24/BGJM1E9B00AP0001.jpg"
+                },
+                {
+                    "type": "TextView",
+                    "tag" : "4",
+                    "ezTitle": "2016-03-01"
+                },
+                {
+                    "type": "TextView",
+                    "tag" : "2",
+                    "ezTitle": "厦大25元自助餐昨紧急叫停2天被学生"
+                }
+            ],
+            "ezContentMap": "image:1,title:2,content:3,time:4"
+        },
+        {
+            "ezAction": {
+                "ezActionType": "showPage",
+                "ezTargetClass": "EZWebViewController",
+                "ezTargetData": {
+                    "ezUri": "http://news.163.com/16/0224/15/BGJNKKVU00011229.html"
+                },
+                "ezTargetXib": "EZWebViewController"
+            },
+           "ezContentData": [
+                {
+                    "type": "TextView",
+                    "tag" : "3",
+                    "ezTitle": "从刷爆朋友圈，到餐厅被挤爆的自助餐，@厦门大学勤业餐厅终于“扛不住”了！昨日后勤集团通知，24日起仅接受教工刷卡进入享用。"
+                },
+
+                {
+                    "type": "SimpleDraweeView",
+                    "tag" : "1",
+                    "ezTitle": "http://img5.cache.netease.com/photo/0001/2016-02-24/BGJM1E9B00AP0001.jpg"
+                },
+                {
+                    "type": "TextView",
+                    "tag" : "4",
+                    "ezTitle": "2016-03-01"
+                },
+                {
+                    "type": "TextView",
+                    "tag" : "2",
+                    "ezTitle": "厦大25元自助餐昨紧急叫停2天被学生"
+                }
+            ],
+            "ezContentMap": "image:1,title:2,content:3,time:4"
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:tag="@string/image"
+        fresco:placeholderImage="@drawable/placeholder_banner"
+        fresco:placeholderImageScaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image"
+        android:singleLine="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginRight="20dp"
+        android:tag="@string/title"
+        tools:text="厦大25元自助餐昨紧急叫停2天被学生" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/image"
+        android:maxLines="3"
+        android:textColor="@color/colorTextGray"
+        android:layout_marginRight="20dp"
+        android:textSize="13sp"
+        android:tag="@string/content"
+        tools:text="　　从刷爆朋友圈，到餐厅被挤爆的自助餐，@厦门大学勤业餐厅终于“扛不住”了！昨日后勤集团通知，24日起仅接受教工刷卡进入享用。" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:textColor="@color/colorTextGray"
+        android:layout_marginRight="20dp"
+        android:textSize="13sp"
+        tools:text="2016-03-01"
+        android:tag="@string/time"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
