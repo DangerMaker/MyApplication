@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.ui.fragment.MyCardFragment;
 import com.example.administrator.myapplication.ui.fragment.MyDetailFragment;
 import com.example.administrator.myapplication.ui.fragment.Tab2Fragment;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -58,7 +59,7 @@ public class MyMainActivity extends BackBaseActivity {
                 case 0:
                     return new MyDetailFragment();
                 default:
-                    return new Tab2Fragment();
+                    return new MyCardFragment();
             }
 
         }
