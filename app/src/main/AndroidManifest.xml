@@ -38,6 +38,10 @@
         <activity android:name=".ui.UpdateActivity" />
         <activity android:name=".ui.NewsGridActivity"/>
         <activity android:name=".ui.MyMainActivity" />
+        <activity android:name=".ui.PublishedActivity"/>
+        <activity android:name=".ui.PhotoActivity"/>
+        <activity android:name=".ui.ImageGridActivity"/>
+        <activity android:name=".ui.TestPicActivity"/>
 
         <service
             android:name=".auth.UserAccountService"

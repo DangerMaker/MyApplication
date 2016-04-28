@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTabHost;
@@ -15,6 +16,7 @@ import com.example.administrator.myapplication.ui.fragment.Tab1Fragment;
 import com.example.administrator.myapplication.ui.fragment.Tab2Fragment;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * User: lyjq(1752095474)
@@ -27,6 +29,8 @@ public class UIActivity extends BaseActivity {
     RelativeLayout goBack;
     @Bind(R.id.toolbar_title)
     TextView title;
+    @Bind(R.id.btn_go_next)
+    RelativeLayout goNext;
 
     public static final String tab1 = "首页";
     public static final String tab2 = "课堂";
@@ -38,6 +42,7 @@ public class UIActivity extends BaseActivity {
         setContentView(R.layout.activity_ui);
         setCustomTitle(tab1);
         goBack.setVisibility(View.INVISIBLE);
+        goNext.setVisibility(View.VISIBLE);
         initView();
     }
 
@@ -57,10 +62,13 @@ public class UIActivity extends BaseActivity {
             @Override
             public void onTabChanged(String tabId) {
                 if (tabId.equals("home")) {
+                    goNext.setVisibility(View.VISIBLE);
                     title.setText(tab1);
                 }else if(tabId.equals("live")){
+                    goNext.setVisibility(View.GONE);
                     title.setText(tab2);
                 }else if(tabId.equals("my")){
+                    goNext.setVisibility(View.GONE);
                     title.setText(tab3);
                 }
             }
@@ -82,6 +90,11 @@ public class UIActivity extends BaseActivity {
             iv.setImageResource(R.drawable.geren2);
         }
         return v;
+    }
+
+    @OnClick(R.id.btn_go_next)
+    public void goSendCircle(){
+        startActivity(new Intent(this,PublishedActivity.class));
     }
 
 }

@@ -29,4 +29,16 @@
         android:textSize="16sp"
         tools:text="here is title" />
 
+    <RelativeLayout
+        android:id="@+id/btn_go_next"
+        android:layout_width="40dp"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/selector_send_circle" />
+    </RelativeLayout>
+
 </android.support.v7.widget.Toolbar>
