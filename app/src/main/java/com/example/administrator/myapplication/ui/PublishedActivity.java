@@ -88,6 +88,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
     public void Init() {
         mAddEmojPage.setEditText(mComment);
+        mSend.setClickable(false);
         //获取当前手机频幕高度
         WindowManager manager = (WindowManager) this.getSystemService(WINDOW_SERVICE);
         int screenWidth = manager.getDefaultDisplay().getWidth();
@@ -115,11 +116,11 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                 if(TextUtils.isEmpty(s)){
                     mSend.setTextColor(getResources().getColor(R.color.colorTextGray));
                     mSend.setBackgroundColor(getResources().getColor(R.color.gray_text));
-                    mSend.setClickable(false);
+                    if(mSend.isClickable())mSend.setClickable(false);
                 }else{
                     mSend.setTextColor(getResources().getColor(R.color.colorWhite));
                     mSend.setBackgroundColor(getResources().getColor(R.color.orange));
-                    mSend.setClickable(true);
+                    if(!mSend.isClickable())mSend.setClickable(true);
                 }
             }
         });
@@ -430,7 +431,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                     Bimp.drr.get(i).lastIndexOf("."));
             list.add(FileUtils.SDPATH + Str + ".JPEG");
         }
-
+        SystemUtils.show_msg(this,"发送动态");
         String comment = mComment.getText().toString();
         // 高清的压缩图片路径全部就在  list 里面
         // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
