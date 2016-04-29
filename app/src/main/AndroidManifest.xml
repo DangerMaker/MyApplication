@@ -41,6 +41,7 @@
         <activity android:name=".ui.ImageGridActivity" />
         <activity android:name=".ui.TestPicActivity" />
         <activity android:name=".ui.ModleActivity"></activity>
+        <activity android:name=".ui.ArticleDetailActivity" />
         <service
             android:name=".auth.UserAccountService"
             tools:ignore="ExportedService">

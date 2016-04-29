@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.myapplication.Config;
+import com.example.administrator.myapplication.model.CustomItemModel;
 import com.example.administrator.myapplication.model.FriendGroupItemModel;
 import com.example.administrator.myapplication.ui.view.BaseInfoItemView;
 import com.example.administrator.myapplication.ui.view.FriendGroupItemView;

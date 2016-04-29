@@ -1,14 +1,19 @@
 package com.example.administrator.myapplication.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.administrator.myapplication.Config;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * User: lyjq(1752095474)
  * Date: 2016-04-26
  */
-public class FriendGroupItemModel {
+public class FriendGroupItemModel implements Parcelable {
+
 
     /**
      * forwardRemindText : 某某转发了
@@ -43,7 +48,7 @@ public class FriendGroupItemModel {
         this.type = type;
     }
 
-    public static class EzContentDataBean {
+    public static class EzContentDataBean implements Parcelable {
         private String forwardRemindText;
         private String userNameText;
         private String userIdText;
@@ -150,7 +155,7 @@ public class FriendGroupItemModel {
             this.commentArray = commentArray;
         }
 
-        public static class CommentArrayBean {
+        public static class CommentArrayBean implements Parcelable {
             private String criticidname;
             private String targetidname;
             private String content;
@@ -178,6 +183,119 @@ public class FriendGroupItemModel {
             public void setContent(String content) {
                 this.content = content;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.criticidname);
+                dest.writeString(this.targetidname);
+                dest.writeString(this.content);
+            }
+
+            public CommentArrayBean() {
+            }
+
+            protected CommentArrayBean(Parcel in) {
+                this.criticidname = in.readString();
+                this.targetidname = in.readString();
+                this.content = in.readString();
+            }
+
+            public static final Parcelable.Creator<CommentArrayBean> CREATOR = new Parcelable.Creator<CommentArrayBean>() {
+                @Override
+                public CommentArrayBean createFromParcel(Parcel source) {
+                    return new CommentArrayBean(source);
+                }
+
+                @Override
+                public CommentArrayBean[] newArray(int size) {
+                    return new CommentArrayBean[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.forwardRemindText);
+            dest.writeString(this.userNameText);
+            dest.writeString(this.userIdText);
+            dest.writeString(this.userMarkText);
+            dest.writeString(this.userHeaderImageName);
+            dest.writeString(this.userTimeText);
+            dest.writeString(this.contentText);
+            dest.writeString(this.praise);
+            dest.writeString(this.comment);
+            dest.writeStringList(this.imageArray);
+            dest.writeTypedList(commentArray);
+        }
+
+        public EzContentDataBean() {
+        }
+
+        protected EzContentDataBean(Parcel in) {
+            this.forwardRemindText = in.readString();
+            this.userNameText = in.readString();
+            this.userIdText = in.readString();
+            this.userMarkText = in.readString();
+            this.userHeaderImageName = in.readString();
+            this.userTimeText = in.readString();
+            this.contentText = in.readString();
+            this.praise = in.readString();
+            this.comment = in.readString();
+            this.imageArray = in.createStringArrayList();
+            this.commentArray = in.createTypedArrayList(CommentArrayBean.CREATOR);
+        }
+
+        public static final Parcelable.Creator<EzContentDataBean> CREATOR = new Parcelable.Creator<EzContentDataBean>() {
+            @Override
+            public EzContentDataBean createFromParcel(Parcel source) {
+                return new EzContentDataBean(source);
+            }
+
+            @Override
+            public EzContentDataBean[] newArray(int size) {
+                return new EzContentDataBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.type);
+        dest.writeParcelable(this.ezContentData, flags);
+    }
+
+    public FriendGroupItemModel() {
+    }
+
+    protected FriendGroupItemModel(Parcel in) {
+        this.type = in.readInt();
+        this.ezContentData = in.readParcelable(EzContentDataBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<FriendGroupItemModel> CREATOR = new Parcelable.Creator<FriendGroupItemModel>() {
+        @Override
+        public FriendGroupItemModel createFromParcel(Parcel source) {
+            return new FriendGroupItemModel(source);
+        }
+
+        @Override
+        public FriendGroupItemModel[] newArray(int size) {
+            return new FriendGroupItemModel[size];
+        }
+    };
 }
