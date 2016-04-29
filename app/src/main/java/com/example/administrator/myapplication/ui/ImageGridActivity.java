@@ -55,7 +55,6 @@ public class ImageGridActivity extends BackBaseActivity implements OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_grid);
-        ButterKnife.bind(this);
         setCustomTitle("相册胶卷");
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());

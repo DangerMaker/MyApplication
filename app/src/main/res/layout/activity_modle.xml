@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.myapplication.ui.ModleActivity">
+    <include layout="@layout/toolbar_back"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:id="@+id/modle_group"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有人可见"
+            android:id="@+id/modle_public"
+            android:layout_margin="5dp"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="仅自己可见"
+            android:layout_margin="5dp"
+            android:id="@+id/modle_private"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指定部分好友可见"
+            android:layout_margin="5dp"
+            android:id="@+id/modle_select_can"
+            />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指定部分好友不可见"
+            android:layout_margin="5dp"
+            android:id="@+id/modle_select_not"
+            />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相互关注好友可见"
+            android:layout_margin="5dp"
+            android:id="@+id/modle_friend"
+            />
+
+    </RadioGroup>
+
+</LinearLayout>

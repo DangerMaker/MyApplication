@@ -87,7 +87,6 @@ public class UploadImageUtils {
             SystemUtils.show_msg(context, "未插入SD卡");
         }
         return path;
-
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

@@ -41,6 +41,7 @@ public class UIActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ui);
         setCustomTitle(tab1);
+        title.setText(tab1);
         goBack.setVisibility(View.INVISIBLE);
         goNext.setVisibility(View.VISIBLE);
         initView();

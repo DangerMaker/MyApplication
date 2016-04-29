@@ -23,9 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class TestPicActivity extends Activity {
+public class TestPicActivity extends BackBaseActivity {
     List<ImageBucket> dataList;
-    //    GridView gridView;
     ImageBucketAdapter adapter;// 自定义的适配器
     AlbumHelper helper;
     public static final String EXTRA_IMAGE_LIST = "imagelist";
@@ -37,7 +36,7 @@ public class TestPicActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_bucket);
-        ButterKnife.bind(this);
+        setCustomTitle("相机胶卷");
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());
 
@@ -83,9 +82,5 @@ public class TestPicActivity extends Activity {
             }
 
         });
-    }
-    @OnClick(R.id.cancel)
-    public void onClick() {
-        finish();
     }
 }
