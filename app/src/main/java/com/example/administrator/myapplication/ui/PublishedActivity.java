@@ -1,8 +1,10 @@
 package com.example.administrator.myapplication.ui;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -27,6 +30,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -144,24 +148,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_take_photo:
-                fromCamera();
-                menuWindow.dismiss();
-                break;
-            case R.id.btn_pick_photo:
-                fromPicture();
-                menuWindow.dismiss();
-                break;
-
-            case R.id.comment:
-                mAddEmojPage.setVisibility(View.GONE);
-                mAddMoreGrid.setVisibility(View.GONE);
-                break;
-        }
-    }
 
     private void fromCamera() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -325,7 +311,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     private static final int TAKE_PICTURE = -1;
     private static final int ADD_MODLE = 0;
     private String path = "";
-    private String outputAvatarPath = "";
 
 
 
@@ -443,7 +428,47 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
     @OnClick(R.id.cancle)
     public void cancle(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.layout_dialog_save_comment,null);
+        builder.setView(view);
+        Button noSave = (Button) view.findViewById(R.id.no_save);
+        Button save = (Button) view.findViewById(R.id.save);
+        noSave.setOnClickListener(this);
+        save.setOnClickListener(this);
+        builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_take_photo:
+                fromCamera();
+                menuWindow.dismiss();
+                break;
+            case R.id.btn_pick_photo:
+                fromPicture();
+                menuWindow.dismiss();
+                break;
+            case R.id.comment:
+                mAddEmojPage.setVisibility(View.GONE);
+                mAddMoreGrid.setVisibility(View.GONE);
+                break;
+
+            case R.id.no_save:
+                finish();
+                break;
+            case R.id.save:
+
+                finish();
+                break;
+        }
     }
 
     /**
