@@ -37,8 +37,6 @@ public class GridViewFragment extends BaseLoadFragment<String>  implements NewsG
 
     @Bind(R.id.gridview)
     GridView mGridView;
-    @Bind(R.id.pull)
-    PullToRefreshView mPullRefresh;
 
     NewsGridAdapter adapter;
 
@@ -65,9 +63,8 @@ public class GridViewFragment extends BaseLoadFragment<String>  implements NewsG
         hideEmptyView();
         List<CustomItemModel> list = parseJson(pageData);
         if (list != null) {
-            adapter.addItems(list);
+            adapter.updateItems(list);
         }
-        mPullRefresh.setRefreshing(false);
     }
 
     @Override
@@ -78,7 +75,7 @@ public class GridViewFragment extends BaseLoadFragment<String>  implements NewsG
 
     @Override
     public void loadMore() {
-        initData();
+//        initData();
     }
 
     private void initData() {

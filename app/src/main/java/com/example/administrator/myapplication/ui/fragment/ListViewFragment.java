@@ -40,15 +40,12 @@ import retrofit.client.Response;
  * User: lyjq(1752095474)
  * Date: 2016-04-25
  */
-public class ListViewFragment extends BaseLoadFragment<String>  implements NewsListAdapter.OnListClick, NewsListAdapter.OnLoadMoreListener {
+public class ListViewFragment extends BaseLoadFragment<String> implements NewsListAdapter.OnListClick, NewsListAdapter.OnLoadMoreListener {
 
     @Bind(R.id.list)
     ListView mListView;
     NewsListAdapter adapter;
 
-
-    @Bind(R.id.pull)
-    PullToRefreshView mPullRefresh;
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_listview;
@@ -57,7 +54,7 @@ public class ListViewFragment extends BaseLoadFragment<String>  implements NewsL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        adapter = new NewsListAdapter(getActivity(), this,this);
+        adapter = new NewsListAdapter(getActivity(), this, this);
         mListView.setAdapter(adapter);
     }
 
@@ -72,9 +69,8 @@ public class ListViewFragment extends BaseLoadFragment<String>  implements NewsL
         hideEmptyView();
         List<CustomItemModel> list = parseJson(pageData);
         if (list != null) {
-            adapter.addItems(list);
+            adapter.updateItems(list);
         }
-        mPullRefresh.setRefreshing(false);
     }
 
     @Override
@@ -85,7 +81,7 @@ public class ListViewFragment extends BaseLoadFragment<String>  implements NewsL
 
     @Override
     public void loadMore() {
-        initData();
+//        initData();
     }
 
     private void initData() {
@@ -115,7 +111,7 @@ public class ListViewFragment extends BaseLoadFragment<String>  implements NewsL
                 while (keyIter.hasNext()) {
                     String key = (String) keyIter.next();
                     if (jsonData.get(key) instanceof String) {
-                        map.put(key,jsonData.get(key));
+                        map.put(key, jsonData.get(key));
                     } else {
                         value = (JSONObject) jsonData.get(key);
                         map.put(key, value);
