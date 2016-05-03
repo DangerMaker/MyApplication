@@ -9,6 +9,10 @@ import android.widget.TextView;
 import com.example.administrator.myapplication.R;
 
 import butterknife.Bind;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -16,7 +20,7 @@ import retrofit.client.Response;
 /**
  *  猪婆专用
  */
-public abstract class BaseLoadFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Callback<T> {
+public abstract class BaseLoadFragment<T> extends BaseFragment implements PtrHandler, Callback<T> {
 
     protected T mPageData;
     protected boolean isLoading;
@@ -24,7 +28,7 @@ public abstract class BaseLoadFragment<T> extends BaseFragment implements SwipeR
     public
     @Nullable
     @Bind(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    PtrClassicFrameLayout mSwipeRefreshLayout;
     public
     @Nullable
     @Bind(android.R.id.empty)
@@ -54,13 +58,25 @@ public abstract class BaseLoadFragment<T> extends BaseFragment implements SwipeR
         } else {
             onInitLoadData(mPageData);
         }
-        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setOnRefreshListener(this);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setPtrHandler(this);
+        }
     }
 
     @Override
-    public void onRefresh() {//刷新数据
+    public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout frame) {
         onLoadData();
     }
+
+    //    @Override
+//    public void onRefresh() {//刷新数据
+//        onLoadData();
+//    }
 
     protected abstract void onLoadData();
 
@@ -83,7 +99,8 @@ public abstract class BaseLoadFragment<T> extends BaseFragment implements SwipeR
 
     protected void stopRefresh() {
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);//停止刷新
+//            mSwipeRefreshLayout.setRefreshing(false);//停止刷新
+            mSwipeRefreshLayout.refreshComplete();
         }
     }
 

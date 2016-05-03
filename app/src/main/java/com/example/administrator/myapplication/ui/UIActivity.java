@@ -11,6 +11,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.ui.fragment.NewsParentFragment;
 import com.example.administrator.myapplication.ui.fragment.PersonCenterFragment;
 import com.example.administrator.myapplication.ui.fragment.Tab1Fragment;
 import com.example.administrator.myapplication.ui.fragment.Tab2Fragment;
@@ -54,7 +55,7 @@ public class UIActivity extends BaseActivity {
         mTabHost.addTab(mTabHost.newTabSpec("home").setIndicator(indicator), Tab1Fragment.class, null);
 
         indicator = getIndicatoreView(tab2, R.layout.home_indicator);
-        mTabHost.addTab(mTabHost.newTabSpec("live").setIndicator(indicator), Tab2Fragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("live").setIndicator(indicator), NewsParentFragment.class, null);
 
         indicator = getIndicatoreView(tab3, R.layout.home_indicator);
         mTabHost.addTab(mTabHost.newTabSpec("my").setIndicator(indicator), PersonCenterFragment.class, null);

@@ -34,5 +34,7 @@ dependencies {
     compile 'com.facebook.fresco:imagepipeline-okhttp:0.8.1'
     //数据库
     compile 'de.greenrobot:greendao:2.1.0'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile files('src/main/libs/zixing-core-3.2.0.jar')
+    compile project(':scrollablelayoutlib')
 }

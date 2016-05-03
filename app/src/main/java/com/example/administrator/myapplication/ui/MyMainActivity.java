@@ -2,12 +2,14 @@ package com.example.administrator.myapplication.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.administrator.myapplication.R;
@@ -25,6 +27,8 @@ import butterknife.Bind;
 public class MyMainActivity extends BackBaseActivity {
     @Bind(R.id.toolbar_layout)
     CollapsingToolbarLayout toolbarLayout;
+    @Bind(R.id.app_bar)
+    AppBarLayout appBarLayout;
     @Bind(R.id.image)
     ImageView draweeView;
     @Bind(R.id.tab_layout)
@@ -43,6 +47,7 @@ public class MyMainActivity extends BackBaseActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {

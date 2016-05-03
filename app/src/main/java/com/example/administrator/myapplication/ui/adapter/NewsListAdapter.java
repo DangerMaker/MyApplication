@@ -41,7 +41,7 @@ public class NewsListAdapter extends MyBaseAdapter<CustomItemModel> {
     }
 
     public interface OnListClick {
-        void click(CustomItemModel str);
+        void click(CustomItemModel customItemModel);
     }
 
     public interface OnLoadMoreListener{
