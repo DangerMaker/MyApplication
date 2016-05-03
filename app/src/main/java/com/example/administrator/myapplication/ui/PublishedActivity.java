@@ -38,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.administrator.myapplication.Config;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.Bimp;
 import com.example.administrator.myapplication.ui.view.Emotion_ViewPager;
@@ -78,6 +79,8 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     EditText mComment;
     @Bind(R.id.activity_selectimg_send)
     TextView mSend;
+    @Bind(R.id.username)
+    TextView mUserName;
 
 
     private boolean isKeyShow = true;
@@ -103,6 +106,9 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         //计算图片排列总宽度
         mPicWidth = screenWidth - rightMargin - leftMargin;
         controlKeyboardLayout(root, mAddGroup);
+
+        mUserName.setText(Config.username);
+
         //设置发送按钮显示状态
         mComment.addTextChangedListener(new TextWatcher() {
             @Override

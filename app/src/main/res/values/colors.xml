@@ -15,4 +15,9 @@
     <color name="gray_name">#626a84</color>
     <color name="gray_text">#b1b1b1</color>
     <color name="orange">#eb831d</color>
+    //Zxing相关
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="possible_result_points">#c0ffbd21</color>
 </resources>

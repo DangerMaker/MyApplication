@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.administrator.myapplication.Config;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.model.FriendGroupItemModel;
 import com.example.administrator.myapplication.model.FriendGroupListModel;
 import com.example.administrator.myapplication.ui.adapter.FriendGroupAdapter;
 import com.example.administrator.myapplication.ui.view.DividerLine;

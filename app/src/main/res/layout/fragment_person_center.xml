@@ -75,6 +75,22 @@
             app:userText="修改密码" />
 
         <com.example.administrator.myapplication.ui.view.PersonContentItemView
+            android:id="@+id/scan_two_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:isShowImage="true"
+            app:userText="扫描二维码" />
+
+        <com.example.administrator.myapplication.ui.view.PersonContentItemView
+            android:id="@+id/create_two_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:isShowImage="false"
+            app:userText="生成二维码" />
+
+        <com.example.administrator.myapplication.ui.view.PersonContentItemView
             android:id="@+id/exit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

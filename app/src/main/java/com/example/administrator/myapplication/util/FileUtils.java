@@ -45,6 +45,20 @@ public class FileUtils {
 		}
 	}
 
+	public static void saveScanBitmap(Bitmap bm,String sacnName){
+		File file = new File(SDPATH + sacnName+".PNG");
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			bm.compress(Bitmap.CompressFormat.PNG,0,fos);
+			fos.flush();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static File createSDDir(String dirName) throws IOException {
 		File dir = new File(SDPATH + dirName);
 		if (Environment.getExternalStorageState().equals(

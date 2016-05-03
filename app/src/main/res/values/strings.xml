@@ -98,4 +98,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
+    <string name="viewfinderview_status_text2">即可自动扫描</string>
+    <string name="msg_camera_framework_bug">你没有允许响应权限,或底层遇到问题,扫描无法进行,请退出重新尝试扫描!</string>
+    <string name="button_ok">OK</string>
 </resources>

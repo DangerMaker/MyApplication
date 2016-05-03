@@ -1,6 +1,5 @@
 package com.example.administrator.myapplication.ui.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;

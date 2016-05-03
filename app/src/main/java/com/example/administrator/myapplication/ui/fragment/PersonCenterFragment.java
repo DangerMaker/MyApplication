@@ -1,35 +1,41 @@
 package com.example.administrator.myapplication.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.Config;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.auth.UserService;
-import com.example.administrator.myapplication.dao.UserDao;
-import com.example.administrator.myapplication.model.User;
 import com.example.administrator.myapplication.model.UserData;
 import com.example.administrator.myapplication.ui.LoginActivity;
 import com.example.administrator.myapplication.ui.UpdateActivity;
 import com.example.administrator.myapplication.ui.view.PersonContentItemView;
 import com.example.administrator.myapplication.ui.view.SelectPopupWindow;
+import com.example.administrator.myapplication.util.FileUtils;
 import com.example.administrator.myapplication.util.RestAdapterUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
 import com.example.administrator.myapplication.util.UploadImageUtils;
+import com.example.administrator.myapplication.zxing.android.CaptureActivity;
+import com.example.administrator.myapplication.zxing.encode.CodeCreator;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -44,6 +50,7 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
     public final static int TAG_MAIL = 0;
     public final static int TAG_NAME = 1;
     public final static int TAG_PASS = 2;
+    private static final int REQUEST_CODE_SCAN = 11;
 
     @Bind(R.id.userinfo_photo)
     SimpleDraweeView mHeadPhoto;
@@ -60,6 +67,11 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
     PersonContentItemView mExiteUser;
     @Bind(R.id.center_header)
     LinearLayout header;
+    @Bind(R.id.scan_two_code)
+    PersonContentItemView mScanCode;
+    @Bind(R.id.create_two_code)
+    PersonContentItemView mCreateCode;
+
 
     UserData user = null;
     private SelectPopupWindow menuWindow;
@@ -75,10 +87,14 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
                 mHeadPhoto.setImageURI(Uri.parse(user.getPicture()));
                 mUsername.setText("用户昵称：" + user.getName());
                 mUsermail.setText("用户邮箱：" + user.getMail());
+                //use test TODO
+                Config.username = user.getName();
                 mUsermail.setVisibility(View.VISIBLE);
                 mUpdateMail.setVisibility(View.VISIBLE);
                 mUpdatePass.setVisibility(View.VISIBLE);
                 mExiteUser.setVisibility(View.VISIBLE);
+                mCreateCode.setVisibility(View.VISIBLE);
+                mScanCode.setVisibility(View.VISIBLE);
             }
         }else{
             mHeadPhoto.setImageURI(Uri.parse(""));
@@ -88,6 +104,8 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
             mUpdateMail.setVisibility(View.GONE);
             mUpdatePass.setVisibility(View.GONE);
             mExiteUser.setVisibility(View.GONE);
+            mCreateCode.setVisibility(View.GONE);
+            mScanCode.setVisibility(View.GONE);
         }
     }
 
@@ -161,6 +179,42 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.center_header:
                 break;
+        }
+    }
+
+
+    @OnClick(R.id.scan_two_code)
+    public void scanCode(){
+        //TODO 扫描二维码
+        Intent intent = new Intent(getActivity(),CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
+    }
+
+    @OnClick(R.id.create_two_code)
+    public void createCode(){
+        //TODO  生成二维码
+        Bitmap bitmap = CodeCreator.createQRCode(user.getName(),user.getUid(),user.getMail());
+        FileUtils.saveScanBitmap(bitmap,user.getUid().toString());
+        if(bitmap != null){
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_scan_code_bitmap,null);
+            ImageView scanBitmap = (ImageView) view.findViewById(R.id.iv_scan_bitmap);
+            scanBitmap.setImageBitmap(bitmap);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(view);
+            builder.show();
+        }else {
+            SystemUtils.show_msg(getActivity(),"生成二维码失败!");
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 11){
+            if(resultCode == getActivity().RESULT_OK){
+
+            }
         }
     }
 
