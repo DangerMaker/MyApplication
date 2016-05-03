@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.FriendGroupItemModel;
 import com.example.administrator.myapplication.ui.ArticleDetailActivity;
+import com.example.administrator.myapplication.ui.ArticleDetailActivity1;
 import com.example.administrator.myapplication.ui.MyMainActivity;
 import com.example.administrator.myapplication.util.DeviceUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
@@ -123,7 +124,7 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
 
     @OnClick(R.id.content)
     public void toDetail(){
-        Intent intent = new Intent(context, ArticleDetailActivity.class);
+        Intent intent = new Intent(context, ArticleDetailActivity1.class);
         intent.putExtra("data",data);
         context.startActivity(intent);
     }

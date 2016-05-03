@@ -35,4 +35,5 @@ dependencies {
     compile 'com.facebook.fresco:imagepipeline-okhttp:0.8.1'
     //数据库
     compile 'de.greenrobot:greendao:2.1.0'
+    compile project(path: ':scrollablelayoutlib')
 }
