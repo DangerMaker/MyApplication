@@ -44,6 +44,7 @@
         <activity android:name=".ui.ImageGridActivity" />
         <activity android:name=".ui.TestPicActivity" />
         <activity android:name=".ui.ModleActivity"></activity>
+        <activity android:name=".ui.ArticleDetailActivity1"/>
         <activity android:name=".zxing.android.CaptureActivity"/>
         <service
             android:name=".auth.UserAccountService"
