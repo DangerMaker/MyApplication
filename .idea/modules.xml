@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/MyGreenDaoGenerator/MyGreenDaoGenerator.iml" filepath="$PROJECT_DIR$/MyGreenDaoGenerator/MyGreenDaoGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/scrollablelayoutlib/scrollablelayoutlib.iml" filepath="$PROJECT_DIR$/scrollablelayoutlib/scrollablelayoutlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/scrollablelayoutlib/scrollablelayoutlib.iml" filepath="$PROJECT_DIR$/scrollablelayoutlib/scrollablelayoutlib.iml" />
     </modules>
   </component>
 </project>

@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -45,6 +46,7 @@ import com.example.administrator.myapplication.ui.view.Emotion_ViewPager;
 import com.example.administrator.myapplication.ui.view.SelectPopupWindow;
 import com.example.administrator.myapplication.util.FileUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
+import com.example.administrator.myapplication.util.UploadImageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,12 +59,6 @@ import butterknife.OnClick;
 
 public class PublishedActivity extends BackBaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.add_location)
-    TextView mAddLocation;
-    @Bind(R.id.add_branch)
-    TextView mAddBranch;
-    @Bind(R.id.add_modle)
-    TextView mAddModle;
     private GridAdapter adapter;
     private int mPicWidth;
     @Bind(R.id.noScrollgridview)
@@ -86,7 +82,8 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     private boolean isKeyShow = true;
     private SelectPopupWindow menuWindow;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectimg);
         ButterKnife.bind(this);
@@ -109,7 +106,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
         mUserName.setText(Config.username);
 
-        //设置发送按钮显示状态
+        //发送按钮显示状态
         mComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -154,20 +151,19 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         });
     }
 
+    private String outputAvatarPath = "";
 
     private void fromCamera() {
-        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String sdStatus = Environment.getExternalStorageState();
         if (!TextUtils.equals(sdStatus, Environment.MEDIA_MOUNTED)) {
             SystemUtils.show_msg(PublishedActivity.this, "未检测到SD卡");
             //检测sdcard
             return;
         }
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/myimage/", String.valueOf(System.currentTimeMillis()) + ".png");
+        File file = new File(FileUtils.SDPATH , String.valueOf(System.currentTimeMillis()) + ".png");
         path = file.getPath();
-        Uri imageUri = Uri.fromFile(file);
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(file));
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
@@ -282,7 +278,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                                         path.lastIndexOf("/") + 1,
                                         path.lastIndexOf("."));
                                 FileUtils.saveBitmap(bm, "" + newStr);
-                                ++Bimp.max;
+                                Bimp.max += 1;
                                 Message message = new Message();
                                 message.what = 1;
                                 handler.sendMessage(message);
@@ -314,28 +310,31 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         super.onRestart();
     }
 
-    private static final int TAKE_PICTURE = -1;
+    private static final int TAKE_PICTURE = 2;
     private static final int ADD_MODLE = 0;
     private String path = "";
-
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case TAKE_PICTURE:
-                if (Bimp.drr.size() < 9 && resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case TAKE_PICTURE:
+//                    Bundle bundle = data.getExtras();
+//                    Bitmap bitmap = (Bitmap) bundle.get("data");
+//                    String bitmapName = String.valueOf(System.currentTimeMillis());
+//                    FileUtils.saveBitmap(bitmap,bitmapName);
+//                    String path = FileUtils.getFilePuth()+bitmapName+".JPEG";
+                    System.out.println(path);
                     if (path != null) {
-                        Bimp.drr.add(path);
-                        adapter.update();
+                        if (Bimp.drr.size() < 9) {
+                            Bimp.drr.add(path);
+                        }
                     }
-                }
-                break;
+                    break;
+                case ADD_MODLE:
 
-            case ADD_MODLE:
-
-                break;
+                    break;
         }
     }
 

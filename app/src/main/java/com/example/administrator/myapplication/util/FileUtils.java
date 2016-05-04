@@ -23,6 +23,10 @@ public class FileUtils {
 	public static String SDPATH = Environment.getExternalStorageDirectory()
 			+ "/formats/";
 
+	public static String getFilePuth(){
+		return SDPATH;
+	}
+
 	public static void saveBitmap(Bitmap bm, String picName) {
 		Log.e("", "保存图片");
 		try {

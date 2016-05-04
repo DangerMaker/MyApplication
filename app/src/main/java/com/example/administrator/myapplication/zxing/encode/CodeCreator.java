@@ -38,7 +38,6 @@ public class CodeCreator {
 					if (matrix.get(x, y)) {
 						pixels[y * width + x] = 0xff000000;
 					}
-
 				}
 			}
 			Bitmap bitmap = Bitmap.createBitmap(width, height,
