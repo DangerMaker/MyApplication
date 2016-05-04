@@ -131,7 +131,6 @@ public class Emotion_GridView2 extends GridView {
 		if (et.getText() == null) {
 			et.setText(" ");
 		}
-
 		String newtextString = "";
 		if (id == -1) {
 			String str = et.getText().toString();
@@ -144,15 +143,15 @@ public class Emotion_GridView2 extends GridView {
 			int last1 = str.lastIndexOf("]");
 			// 最后一个"["标记的位置
 			int last2 = str.lastIndexOf("[");
-
 			// 最后一个字符是表情
 			if (last1 == str.length() - 1) {
-
 				// 一个不严谨的判断，表情的格式是"[表情]" 或者
 				// "[表]"，判断两个括号的index的差，如果差值等于2或者3，就当作表情处理
+
 				if (last1 - last2 == 3 || last1 - last2 == 2) {
 					// 删除代表表情的字符串
-					newtextString = str.substring(0, last2);
+					// TODO last2 -1 表示将添加表情时的空格一起删除
+					newtextString = str.substring(0, last2 -1);
 				} else {// 不是表情，删除最后一个字
 					newtextString = str.substring(0, length - 1);
 				}

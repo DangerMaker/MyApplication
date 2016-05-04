@@ -46,7 +46,6 @@ import com.example.administrator.myapplication.ui.view.Emotion_ViewPager;
 import com.example.administrator.myapplication.ui.view.SelectPopupWindow;
 import com.example.administrator.myapplication.util.FileUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
-import com.example.administrator.myapplication.util.UploadImageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -151,7 +150,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         });
     }
 
-    private String outputAvatarPath = "";
 
     private void fromCamera() {
         String sdStatus = Environment.getExternalStorageState();
@@ -160,7 +158,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
             //检测sdcard
             return;
         }
-        File file = new File(FileUtils.SDPATH , String.valueOf(System.currentTimeMillis()) + ".png");
+        File file = new File(FileUtils.IMAGES , String.valueOf(System.currentTimeMillis()) + ".png");
         path = file.getPath();
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(file));
@@ -252,6 +250,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
+                        //刷新GridView列表
                         adapter.notifyDataSetChanged();
                         break;
                 }
@@ -272,11 +271,15 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                             try {
                                 String path = Bimp.drr.get(Bimp.max);
                                 System.out.println(path);
+                                //将对应路径的图片压缩
                                 Bitmap bm = Bimp.revitionImageSize(path);
+                                //压缩后添加到集合
                                 Bimp.bmp.add(bm);
+                                //截取图片名称
                                 String newStr = path.substring(
                                         path.lastIndexOf("/") + 1,
                                         path.lastIndexOf("."));
+                                //保存图片
                                 FileUtils.saveBitmap(bm, "" + newStr);
                                 Bimp.max += 1;
                                 Message message = new Message();
@@ -320,11 +323,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
             switch (requestCode) {
                 case TAKE_PICTURE:
-//                    Bundle bundle = data.getExtras();
-//                    Bitmap bitmap = (Bitmap) bundle.get("data");
-//                    String bitmapName = String.valueOf(System.currentTimeMillis());
-//                    FileUtils.saveBitmap(bitmap,bitmapName);
-//                    String path = FileUtils.getFilePuth()+bitmapName+".JPEG";
                     System.out.println(path);
                     if (path != null) {
                         if (Bimp.drr.size() < 9) {

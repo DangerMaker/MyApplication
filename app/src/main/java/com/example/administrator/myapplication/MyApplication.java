@@ -8,6 +8,8 @@ import com.facebook.imagepipeline.backends.okhttp.OkHttpImagePipelineConfigFacto
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 2016/4/13.
  */

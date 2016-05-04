@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
@@ -23,6 +24,9 @@ public class FileUtils {
 	public static String SDPATH = Environment.getExternalStorageDirectory()
 			+ "/formats/";
 
+	public static String IMAGES = Environment.getExternalStorageDirectory()
+			+ "/myimage/";
+
 	public static String getFilePuth(){
 		return SDPATH;
 	}
@@ -31,7 +35,7 @@ public class FileUtils {
 		Log.e("", "保存图片");
 		try {
 			if (!isFileExist("")) {
-				File tempf = createSDDir("");
+				createSDDir("");
 			}
 			File f = new File(SDPATH, picName + ".JPEG");
 			if (f.exists()) {
@@ -50,7 +54,7 @@ public class FileUtils {
 	}
 
 	public static void saveScanBitmap(Bitmap bm,String sacnName){
-		File file = new File(SDPATH + sacnName+".PNG");
+		File file = new File(IMAGES + sacnName+".PNG");
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			bm.compress(Bitmap.CompressFormat.PNG,0,fos);
@@ -67,9 +71,6 @@ public class FileUtils {
 		File dir = new File(SDPATH + dirName);
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
-
-			System.out.println("createSDDir:" + dir.getAbsolutePath());
-			System.out.println("createSDDir:" + dir.mkdir());
 		}
 		return dir;
 	}
@@ -161,8 +162,7 @@ public class FileUtils {
 				return;
 			}
 			String cc = emString.substring(1, emString.length() - 1);
-			if (cc != null && !"".equals(cc)
-					&& emo_map.containsKey("[" + cc + "]")) {
+			if (!TextUtils.isEmpty(cc) && emo_map.containsKey("[" + cc + "]")) {
 				// int num = Integer.parseInt(cc);
 				// if (num < 0 || num > emo_map.size() - 1) {
 				// return;
