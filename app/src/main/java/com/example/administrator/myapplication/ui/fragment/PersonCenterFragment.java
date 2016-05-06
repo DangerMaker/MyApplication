@@ -87,7 +87,6 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
                 mUsername.setText("用户昵称：" + user.getName());
                 mUsermail.setText("用户邮箱：" + user.getMail());
                 //use test TODO
-                Config.username = user.getName();
                 mUsermail.setVisibility(View.VISIBLE);
                 mUpdateMail.setVisibility(View.VISIBLE);
                 mUpdatePass.setVisibility(View.VISIBLE);
@@ -229,6 +228,7 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
                 if (list != null) {
                     SystemUtils.show_msg(getActivity(), "登出成功");
                     UserService.getInstance(getActivity()).logout();
+                    Config.username = null;
                 }
                 //登出成功,跳转到登录页面
                 startActivity(new Intent(getActivity(),LoginActivity.class));

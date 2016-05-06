@@ -9,6 +9,8 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 2016/4/13.
  */

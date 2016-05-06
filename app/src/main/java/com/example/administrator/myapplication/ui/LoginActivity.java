@@ -56,8 +56,8 @@ public class LoginActivity extends BackBaseActivity {
     private void initView() {
         EditTextUtils.setEditTextImage(mNameEdit,mNameImage);
         EditTextUtils.setEditTextImage(mPassEdit,mPassImage);
-
     }
+
 
     @OnClick(R.id.login_btn)
     public void login() {
@@ -117,6 +117,7 @@ public class LoginActivity extends BackBaseActivity {
 
         Config.uid = user.getUid();
         Config.cookie = headers;
+        Config.username = user.getName();
         finish();
     }
 }

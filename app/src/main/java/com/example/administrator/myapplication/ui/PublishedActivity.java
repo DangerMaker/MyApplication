@@ -1,10 +1,8 @@
 package com.example.administrator.myapplication.ui;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -38,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.administrator.myapplication.Config;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.Bimp;
@@ -46,19 +42,15 @@ import com.example.administrator.myapplication.ui.view.Emotion_ViewPager;
 import com.example.administrator.myapplication.ui.view.SelectPopupWindow;
 import com.example.administrator.myapplication.util.FileUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
-import com.example.administrator.myapplication.util.UploadImageUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PublishedActivity extends BackBaseActivity implements View.OnClickListener {
-
     private GridAdapter adapter;
     private int mPicWidth;
     @Bind(R.id.noScrollgridview)
@@ -77,7 +69,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     TextView mSend;
     @Bind(R.id.username)
     TextView mUserName;
-
 
     private boolean isKeyShow = true;
     private SelectPopupWindow menuWindow;
@@ -103,8 +94,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         //计算图片排列总宽度
         mPicWidth = screenWidth - rightMargin - leftMargin;
         controlKeyboardLayout(root, mAddGroup);
-
-        mUserName.setText(Config.username);
 
         //发送按钮显示状态
         mComment.addTextChangedListener(new TextWatcher() {
@@ -151,7 +140,12 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         });
     }
 
-    private String outputAvatarPath = "";
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!TextUtils.isEmpty(Config.username)) mUserName.setText(Config.username);
+    }
 
     private void fromCamera() {
         String sdStatus = Environment.getExternalStorageState();
@@ -160,7 +154,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
             //检测sdcard
             return;
         }
-        File file = new File(FileUtils.SDPATH , String.valueOf(System.currentTimeMillis()) + ".png");
+        File file = new File(FileUtils.IMAGES , String.valueOf(System.currentTimeMillis()) + ".png");
         path = file.getPath();
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(file));
@@ -252,6 +246,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
+                        //刷新GridView列表
                         adapter.notifyDataSetChanged();
                         break;
                 }
@@ -272,11 +267,15 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                             try {
                                 String path = Bimp.drr.get(Bimp.max);
                                 System.out.println(path);
+                                //将对应路径的图片压缩
                                 Bitmap bm = Bimp.revitionImageSize(path);
+                                //压缩后添加到集合
                                 Bimp.bmp.add(bm);
+                                //截取图片名称
                                 String newStr = path.substring(
                                         path.lastIndexOf("/") + 1,
                                         path.lastIndexOf("."));
+                                //保存图片
                                 FileUtils.saveBitmap(bm, "" + newStr);
                                 Bimp.max += 1;
                                 Message message = new Message();
@@ -320,11 +319,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
             switch (requestCode) {
                 case TAKE_PICTURE:
-//                    Bundle bundle = data.getExtras();
-//                    Bitmap bitmap = (Bitmap) bundle.get("data");
-//                    String bitmapName = String.valueOf(System.currentTimeMillis());
-//                    FileUtils.saveBitmap(bitmap,bitmapName);
-//                    String path = FileUtils.getFilePuth()+bitmapName+".JPEG";
                     System.out.println(path);
                     if (path != null) {
                         if (Bimp.drr.size() < 9) {
@@ -414,6 +408,10 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
     @OnClick(R.id.activity_selectimg_send)
     public void send() {
+        if(TextUtils.isEmpty(Config.username)){
+            startActivity(new Intent(PublishedActivity.this,LoginActivity.class));
+            return;
+        }
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < Bimp.drr.size(); i++) {
             String Str = Bimp.drr.get(i).substring(
@@ -425,7 +423,11 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         String comment = mComment.getText().toString();
         // 高清的压缩图片路径全部就在  list 里面
         // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
-        // 完成上传服务器后 .........
+
+
+        // 完成上传服务器后,删除存放图片的目录;
+        Bimp.bmp = null;
+        Bimp.drr = null;
         FileUtils.deleteDir();
     }
 
@@ -433,20 +435,23 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
     @OnClick(R.id.cancle)
     public void cancle(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_dialog_save_comment,null);
-        builder.setView(view);
-        Button noSave = (Button) view.findViewById(R.id.no_save);
-        Button save = (Button) view.findViewById(R.id.save);
-        noSave.setOnClickListener(this);
-        save.setOnClickListener(this);
-        builder.show();
+//        if(TextUtils.isEmpty(mComment.getText().toString()) && Bimp.bmp.size() == 0  ){
+            finish();
+//        }else {
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            View view = LayoutInflater.from(this).inflate(R.layout.layout_dialog_save_comment,null);
+//            builder.setView(view);
+//            Button noSave = (Button) view.findViewById(R.id.no_save);
+//            Button save = (Button) view.findViewById(R.id.save);
+//            noSave.setOnClickListener(this);
+//            save.setOnClickListener(this);
+//            builder.show();
+//        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
 
     }
 
@@ -470,7 +475,8 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.save:
-
+                //TODO save
+                SystemUtils.show_msg(PublishedActivity.this,"已保存在草稿箱,你可以在个人页面查看!");
                 finish();
                 break;
         }

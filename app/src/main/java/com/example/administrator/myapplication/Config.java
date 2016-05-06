@@ -10,10 +10,7 @@ public class Config {
     public static String FRIEND_URL = "http://7xtdd8.com1.z0.glb.clouddn.com";
     public static String IMAGE_URL = "http://192.168.76.214/drupal7/sites/default/files";
 
-    public static String username;
-    public static String password = "22222222";
-    public static String mail = username + "@qq.com";
-
+    public static String username = null;
     public static String cookie = null;
     public static String uid = null;
     public static String token = null;
