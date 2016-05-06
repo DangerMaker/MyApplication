@@ -3,7 +3,6 @@ package com.example.administrator.myapplication.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PhotoActivity extends BackBaseActivity {
@@ -92,8 +90,6 @@ public class PhotoActivity extends BackBaseActivity {
 
         }
     };
-
-
 
     @OnClick(R.id.photo_bt_exit)
     public void photoExit() {

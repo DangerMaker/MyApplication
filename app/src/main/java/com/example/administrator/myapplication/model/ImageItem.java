@@ -1,5 +1,8 @@
 package com.example.administrator.myapplication.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +11,10 @@ import java.io.Serializable;
  * Created by shand on 2016/4/27.
  * 
  */
-public class ImageItem implements Serializable {
+public class ImageItem implements Serializable{
 	public String imageId;
 	public String thumbnailPath;
 	public String imagePath;
 	public boolean isSelected = false;
+
 }

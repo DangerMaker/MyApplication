@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.ImageBucket;
-import com.example.administrator.myapplication.ui.TestPicActivity;
 import com.example.administrator.myapplication.util.BitmapCache;
 
 import java.util.List;

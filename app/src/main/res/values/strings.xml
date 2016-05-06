@@ -102,4 +102,5 @@
     <string name="viewfinderview_status_text2">即可自动扫描</string>
     <string name="msg_camera_framework_bug">你没有允许响应权限,或底层遇到问题,扫描无法进行,请退出重新尝试扫描!</string>
     <string name="button_ok">OK</string>
+    <string name="all_comment">查看所有评论</string>
 </resources>

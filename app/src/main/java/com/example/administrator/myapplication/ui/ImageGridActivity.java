@@ -2,6 +2,8 @@ package com.example.administrator.myapplication.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.Bimp;
+import com.example.administrator.myapplication.model.ImageBucket;
 import com.example.administrator.myapplication.model.ImageItem;
 import com.example.administrator.myapplication.ui.adapter.ImageGridAdapter;
 import com.example.administrator.myapplication.util.AlbumHelper;
@@ -32,10 +35,11 @@ import butterknife.OnClick;
 
 public class ImageGridActivity extends BackBaseActivity implements OnClickListener {
     public static final String EXTRA_IMAGE_LIST = "imagelist";
-
+    List<ImageBucket> imageBuckets;
 	List<ImageItem> dataList;
     ImageGridAdapter adapter;
     AlbumHelper helper;
+    public static Bitmap bimap;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -58,13 +62,23 @@ public class ImageGridActivity extends BackBaseActivity implements OnClickListen
         setCustomTitle("相册胶卷");
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());
-        dataList = (List<ImageItem>) getIntent().getSerializableExtra(EXTRA_IMAGE_LIST);
+        initData();
         initView();
     }
 
-    /**
-     *
-     */
+    private void initData() {
+        imageBuckets = helper.getImagesBucketList(false);
+        dataList = new ArrayList<>();
+        for(ImageBucket bucket : imageBuckets){
+            for(ImageItem item : bucket.imageList){
+                dataList.add(item);
+            }
+        }
+        bimap = BitmapFactory.decodeResource(
+                getResources(),
+                R.drawable.icon_addpic_unfocused);
+    }
+
     private void initView() {
         mGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new ImageGridAdapter(this,dataList,mHandler);
@@ -74,24 +88,19 @@ public class ImageGridActivity extends BackBaseActivity implements OnClickListen
                 mFinish.setText("已选择" + "(" + count + ")");
             }
         });
+    }
 
-        mGridview.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                adapter.notifyDataSetChanged();
-            }
-
-        });
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.btn_finish})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_finish:
-                ArrayList<String> list = new ArrayList<String>();
+                ArrayList<String> list = new ArrayList<>();
                 Collection<String> c = adapter.map.values();
                 Iterator<String> it = c.iterator();
                 for (; it.hasNext(); ) {

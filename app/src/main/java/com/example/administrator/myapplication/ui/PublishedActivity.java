@@ -109,7 +109,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s)){
+                if(TextUtils.isEmpty(s) && mGridView.getCount() == 0){
                     mSend.setTextColor(getResources().getColor(R.color.colorTextGray));
                     mSend.setBackgroundColor(getResources().getColor(R.color.gray_text));
                     if(mSend.isClickable())mSend.setClickable(false);
@@ -163,7 +163,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
     private void fromPicture() {
         Intent intent = new Intent(this,
-                TestPicActivity.class);
+                ImageGridActivity.class);
         startActivity(intent);
     }
 
@@ -264,26 +264,22 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                             handler.sendMessage(message);
                             break;
                         } else {
-                            try {
-                                String path = Bimp.drr.get(Bimp.max);
-                                System.out.println(path);
-                                //将对应路径的图片压缩
-                                Bitmap bm = Bimp.revitionImageSize(path);
-                                //压缩后添加到集合
-                                Bimp.bmp.add(bm);
-                                //截取图片名称
-                                String newStr = path.substring(
-                                        path.lastIndexOf("/") + 1,
-                                        path.lastIndexOf("."));
-                                //保存图片
-                                FileUtils.saveBitmap(bm, "" + newStr);
-                                Bimp.max += 1;
-                                Message message = new Message();
-                                message.what = 1;
-                                handler.sendMessage(message);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            String path = Bimp.drr.get(Bimp.max);
+                            System.out.println(path);
+                            //将对应路径的图片压缩
+                            Bitmap bm = Bimp.revitionImageSize(path);
+                            //压缩后添加到集合
+                            Bimp.bmp.add(bm);
+                            //截取图片名称
+                            String newStr = path.substring(
+                                    path.lastIndexOf("/") + 1,
+                                    path.lastIndexOf("."));
+                            //保存图片
+                            FileUtils.saveBitmap(bm, "" + newStr);
+                            Bimp.max += 1;
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
                         }
                     }
                 }

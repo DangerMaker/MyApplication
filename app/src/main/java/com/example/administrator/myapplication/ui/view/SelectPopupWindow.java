@@ -44,8 +44,6 @@ public class SelectPopupWindow extends PopupWindow {
         super(context);
         this.context = context;
         this.view_parent = view_parent;
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = view;
         btn_cancel = (Button) mMenuView.findViewById(R.id.btn_cancel);
         //取消按钮

@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.administrator.myapplication.ui.TestPicActivity;
+import com.example.administrator.myapplication.ui.ImageGridActivity;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -21,11 +21,11 @@ public class BitmapCache extends Activity {
 
 	public Handler h = new Handler();
 	public final String TAG = getClass().getSimpleName();
-	private HashMap<String, SoftReference<Bitmap>> imageCache = new HashMap<String, SoftReference<Bitmap>>();
+	private HashMap<String, SoftReference<Bitmap>> imageCache = new HashMap<>();
 
 	public void put(String path, Bitmap bmp) {
 		if (!TextUtils.isEmpty(path) && bmp != null) {
-			imageCache.put(path, new SoftReference<Bitmap>(bmp));
+			imageCache.put(path, new SoftReference<>(bmp));
 		}
 	}
 
@@ -45,7 +45,6 @@ public class BitmapCache extends Activity {
 			path = sourcePath;
 			isThumbPath = false;
 		} else {
-			// iv.setImageBitmap(null);
 			return;
 		}
 
@@ -64,6 +63,7 @@ public class BitmapCache extends Activity {
 		iv.setImageBitmap(null);
 
 		new Thread() {
+
 			Bitmap thumb;
 
 			public void run() {
@@ -81,7 +81,7 @@ public class BitmapCache extends Activity {
 					
 				}
 				if (thumb == null) {
-					thumb = TestPicActivity.bimap;
+					thumb = ImageGridActivity.bimap;
 				}
 				Log.e(TAG, "-------thumb------"+thumb);
 				put(path, thumb);

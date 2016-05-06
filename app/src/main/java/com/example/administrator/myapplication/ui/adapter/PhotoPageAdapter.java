@@ -11,17 +11,17 @@ import java.util.ArrayList;
  */
 public class PhotoPageAdapter extends PagerAdapter {
 
-    private ArrayList<View> listViews;// content
+    private ArrayList<View> listViews;
 
-    private int size;// 页数
+    private int size;
 
-    public PhotoPageAdapter(ArrayList<View> listViews) {// 构造函数
-        // 初始化viewpager的时候给的一个页面
+    public PhotoPageAdapter(ArrayList<View> listViews) {
+
         this.listViews = listViews;
         size = listViews == null ? 0 : listViews.size();
     }
 
-    public void setListViews(ArrayList<View> listViews) {// 自己写的一个方法用来添加数据
+    public void setListViews(ArrayList<View> listViews) {
         this.listViews = listViews;
         size = listViews == null ? 0 : listViews.size();
     }
@@ -34,14 +34,14 @@ public class PhotoPageAdapter extends PagerAdapter {
         return POSITION_NONE;
     }
 
-    public void destroyItem(View arg0, int arg1, Object arg2) {// 销毁view对象
+    public void destroyItem(View arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView(listViews.get(arg1 % size));
     }
 
     public void finishUpdate(View arg0) {
     }
 
-    public Object instantiateItem(View arg0, int arg1) {// 返回view对象
+    public Object instantiateItem(View arg0, int arg1) {
         try {
             ((ViewPager) arg0).addView(listViews.get(arg1 % size), 0);
 
