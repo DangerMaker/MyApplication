@@ -12,7 +12,7 @@ import com.example.administrator.myapplication.model.UserData;
 import com.example.administrator.myapplication.util.SharedPreferencesHelper;
 
 /**
- * Created by Administrator on 2016/4/14.
+ * 用户数据通过Account进行增删改查
  */
 public class UserService {
 
@@ -59,6 +59,7 @@ public class UserService {
         return mInstance;
     }
 
+    //判断当前是否有用户
     private boolean hasDefaultAccount() {
         return getDefaultAccount() != null;
     }
@@ -125,6 +126,7 @@ public class UserService {
         mAccountManager.setPassword(activeAccount,pass);
     }
 
+    //登录调用
     public boolean signIn(String username, String password, UserData user) {
         if (user == null) {
             return false;

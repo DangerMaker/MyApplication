@@ -6,20 +6,16 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.FriendGroupItemModel;
 import com.example.administrator.myapplication.ui.ArticleDetailActivity;
-import com.example.administrator.myapplication.ui.ArticleDetailActivity1;
 import com.example.administrator.myapplication.ui.MyMainActivity;
 import com.example.administrator.myapplication.util.DeviceUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -124,7 +120,7 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
 
     @OnClick(R.id.content)
     public void toDetail(){
-        Intent intent = new Intent(context, ArticleDetailActivity1.class);
+        Intent intent = new Intent(context, ArticleDetailActivity.class);
         intent.putExtra("data",data);
         context.startActivity(intent);
     }

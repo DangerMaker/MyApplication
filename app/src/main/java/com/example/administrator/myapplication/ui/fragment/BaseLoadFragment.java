@@ -18,7 +18,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- *  猪婆专用
+ *  为drupal7服务器专门设计的加载其网络请求类，所有有网络请求的fragment类继承它
+ *  并实现它的抽象方法
+ *
  */
 public abstract class BaseLoadFragment<T> extends BaseFragment implements PtrHandler, Callback<T> {
 
@@ -53,36 +55,37 @@ public abstract class BaseLoadFragment<T> extends BaseFragment implements PtrHan
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //如果mPageData有缓存直接显示，否则去网络获取
         if (mPageData == null) {
             onLoadData();
         } else {
             onInitLoadData(mPageData);
         }
         if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setLastUpdateTimeRelateObject(this);
             mSwipeRefreshLayout.setPtrHandler(this);
         }
     }
 
+    //下拉刷新检测方法
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
         return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
     }
 
+    //下拉刷新执行动作
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
         onLoadData();
     }
 
-    //    @Override
-//    public void onRefresh() {//刷新数据
-//        onLoadData();
-//    }
-
+    //网络请求的发起所需的参数会涉及到用户界面的操作，所以交给子类去发起请求
     protected abstract void onLoadData();
 
-    //TODO 当前初始化数据 没有判断 ErrorMessage~
+    //成功获得module,返回给子类去进行界面展示
     protected abstract void onInitLoadData(T pageData);
 
+    //网络请求成功回调接口，停止下拉，数据返回给子类
     @Override
     public void success(T page, Response response) {
         if (getActivity() == null) return;
@@ -90,6 +93,7 @@ public abstract class BaseLoadFragment<T> extends BaseFragment implements PtrHan
         setPageData(page);
     }
 
+    //网络请求失败回调接口，停止下拉，显示retry
     @Override
     public void failure(RetrofitError error) {
         if (getActivity() == null) return;

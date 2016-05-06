@@ -72,7 +72,7 @@ public class RegisterActivity extends BackBaseActivity {
             public void success(RegisterSuc registerSuc, Response response) {
                 if (registerSuc != null && registerSuc.getUid() != null)
                     SystemUtils.show_msg(RegisterActivity.this, "注册成功");
-
+                finish();
             }
 
             @Override

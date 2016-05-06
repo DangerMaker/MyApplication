@@ -8,6 +8,11 @@ import android.widget.RelativeLayout;
 
 import com.example.administrator.myapplication.R;
 
+/**
+ * BackBaseActivity为有在toolbar上有返回键的activity提供基类,并提供fragment的控制
+ * Activity的开销比fragment大太多，都是控制类所以多用fragment，可以优化界面卡顿
+ */
+
 public abstract class BackBaseActivity extends BaseActivity {
     private String mTitle="";
     private RelativeLayout mGoBack;
@@ -28,8 +33,6 @@ public abstract class BackBaseActivity extends BaseActivity {
             });
         }
     }
-
-
 
     public void setToolbarTitle(String title){
         mTitle=title;
@@ -57,7 +60,6 @@ public abstract class BackBaseActivity extends BaseActivity {
                     .commitAllowingStateLoss();
         }
     }
-
 
     public void goBack(){
         if (getSupportFragmentManager().getBackStackEntryCount() > 0){

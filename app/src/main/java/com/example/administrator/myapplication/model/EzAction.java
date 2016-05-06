@@ -54,14 +54,14 @@ public class EzAction {
     }
 
     public static class EzTargetDataBean {
-        private String ezUri;
+        private String ezDataUrl;
 
-        public String getEzUri() {
-            return ezUri;
+        public String getEzDataUrl() {
+            return ezDataUrl;
         }
 
-        public void setEzUri(String ezUri) {
-            this.ezUri = ezUri;
+        public void setEzDataUrl(String ezDataUrl) {
+            this.ezDataUrl = ezDataUrl;
         }
     }
 }

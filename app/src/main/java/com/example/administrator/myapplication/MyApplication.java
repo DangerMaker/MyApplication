@@ -6,6 +6,7 @@ import com.example.administrator.myapplication.auth.UserService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.squareup.okhttp.OkHttpClient;
 
 /**
@@ -14,6 +15,7 @@ import com.squareup.okhttp.OkHttpClient;
 public class MyApplication extends Application {
     public static MyApplication sInstance;
     public static String userID = "0";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,7 +29,7 @@ public class MyApplication extends Application {
         //初始化用户
         if (UserService.getInstance(this).hasActiveAccount()) {
             String uid = UserService.getInstance(this).getActiveAccountInfo().getUid();
-            if(uid == null){
+            if (uid == null) {
                 userID = "0";
             } else {
                 userID = uid;

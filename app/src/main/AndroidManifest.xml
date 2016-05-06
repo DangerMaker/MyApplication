@@ -30,21 +30,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.NewsListActivity" />
         <activity android:name=".ui.NewsDetailActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.PersonCenterActivity" />
-        <activity android:name=".ui.AlterPersonInfoActivity" />
         <activity android:name=".ui.UpdateActivity" />
-        <activity android:name=".ui.NewsGridActivity" />
         <activity android:name=".ui.MyMainActivity" />
         <activity android:name=".ui.PublishedActivity" />
         <activity android:name=".ui.PhotoActivity" />
         <activity android:name=".ui.ImageGridActivity" />
         <activity android:name=".ui.TestPicActivity" />
         <activity android:name=".ui.ModleActivity"></activity>
+        <activity android:name=".ui.ArticleDetailActivity" />
         <activity android:name=".zxing.android.CaptureActivity"/>
+
+        //用户管理
         <service
             android:name=".auth.UserAccountService"
             tools:ignore="ExportedService">

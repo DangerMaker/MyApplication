@@ -8,7 +8,6 @@ import java.util.Map;
  */
 public class CustomItemModel {
     Map<String,String> ezContentMap;
-    EzContentData ezContentData;
     EzAction ezAction;
 
     public Map<String, String> getEzContentMap() {
@@ -19,19 +18,21 @@ public class CustomItemModel {
         this.ezContentMap = ezContentMap;
     }
 
-    public EzContentData getEzContentData() {
-        return ezContentData;
-    }
-
-    public void setEzContentData(EzContentData ezContentData) {
-        this.ezContentData = ezContentData;
-    }
-
     public EzAction getEzAction() {
         return ezAction;
     }
 
     public void setEzAction(EzAction ezAction) {
         this.ezAction = ezAction;
+    }
+
+    Map<String, Object> map;
+
+    public Map<String, Object> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, Object> map) {
+        this.map = map;
     }
 }

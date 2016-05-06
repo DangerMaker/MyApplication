@@ -13,17 +13,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.FriendGroupItemModel;
-import com.example.administrator.myapplication.ui.fragment.MyCardFragment;
-import com.example.administrator.myapplication.ui.fragment.MyDetailFragment;
 import com.example.administrator.myapplication.ui.fragment.Tab2Fragment;
 import com.example.administrator.myapplication.util.DeviceUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 
@@ -32,10 +32,8 @@ import butterknife.Bind;
  * Date: 2016-04-27
  */
 public class ArticleDetailActivity extends BackBaseActivity {
-    @Bind(R.id.toolbar_layout)
-    CollapsingToolbarLayout toolbarLayout;
-    @Bind(R.id.app_bar)
-    AppBarLayout appBarLayout;;
+    @Bind(R.id.scrollableLayout)
+    ScrollableLayout mScrollLayout;
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
     @Bind(R.id.main_viewpager)
@@ -61,18 +59,47 @@ public class ArticleDetailActivity extends BackBaseActivity {
     String allcontent;
     int viewWidth;
     int margin;
+    ArrayList<Tab2Fragment> fragmentList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_detail);
+        setContentView(R.layout.activity_article_detail1);
         setCustomTitle("微博正文");
         data = (FriendGroupItemModel)getIntent().getParcelableExtra("data");
+
+        fragmentList.add(new Tab2Fragment());
+        fragmentList.add(new Tab2Fragment());
+
+        mScrollLayout = (ScrollableLayout) findViewById(R.id.scrollableLayout);
+        mScrollLayout.setOnScrollListener(new ScrollableLayout.OnScrollListener() {
+            @Override
+            public void onScroll(int currentY, int maxY) {
+//                ViewHelper.setTranslationY(imageHeader, (float) (currentY * 0.5));
+            }
+        });
+        mScrollLayout.getHelper().setCurrentScrollableContainer(fragmentList.get(0));
 
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mScrollLayout.getHelper().setCurrentScrollableContainer(fragmentList.get(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         viewWidth = DeviceUtils.getScreenWidth(this) - SystemUtils.convertDpToPixel(this, 68);
         margin = SystemUtils.convertDpToPixel(this, 4);
@@ -111,13 +138,7 @@ public class ArticleDetailActivity extends BackBaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return new Tab2Fragment();
-                default:
-                    return new Tab2Fragment();
-            }
-
+            return fragmentList.get(position);
         }
 
         @Override

@@ -21,7 +21,7 @@ import java.io.IOException;
 
 
 /**
- * Created by gujun on 2015/5/19.
+ * Created by lyjq on 2015/5/19.
  */
 public class UploadImageUtils {
     private static final String AVATAR_PATH = "/com.cnlive.movie/image/";

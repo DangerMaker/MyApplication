@@ -78,7 +78,6 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        //搞清机制后去掉
 
         if(UserService.getInstance(getActivity()).hasActiveAccount() && Config.cookie != null){
             user = UserService.getInstance(getActivity()).getActiveAccountInfo();

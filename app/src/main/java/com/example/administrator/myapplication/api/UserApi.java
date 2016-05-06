@@ -4,6 +4,7 @@ import com.example.administrator.myapplication.model.AlterMailSuc;
 import com.example.administrator.myapplication.model.AlterPassSuc;
 import com.example.administrator.myapplication.model.LoginSuc;
 import com.example.administrator.myapplication.model.RegisterSuc;
+import com.example.administrator.myapplication.model.Token;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
@@ -25,6 +26,9 @@ import retrofit.mime.TypedFile;
  * Created by Administrator on 2016/4/12.
  */
 public interface UserApi {
+    @POST("/userapi/user/token")
+    void getToken(Callback<Token> callback);
+
     @FormUrlEncoded
     @POST("/userapi/user/register")
     void register(@Field("name") String name,
