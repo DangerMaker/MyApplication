@@ -15,10 +15,12 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.FriendGroupItemModel;
 import com.example.administrator.myapplication.ui.ArticleDetailActivity;
 import com.example.administrator.myapplication.ui.MyMainActivity;
+import com.example.administrator.myapplication.ui.PhotoActivity1;
 import com.example.administrator.myapplication.util.DeviceUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;
@@ -31,6 +33,7 @@ import butterknife.OnClick;
  */
 public class FriendGroupItemView extends RelativeLayout implements View.OnClickListener {
 
+    private static final int FRIEND_PIC = 1;
     @Bind(R.id.image)
     SimpleDraweeView avater;
     @Bind(R.id.name)
@@ -93,7 +96,7 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
         margin = SystemUtils.convertDpToPixel(getContext(), 4);
     }
 
-    public void setData(FriendGroupItemModel data) {
+    public void setData(final FriendGroupItemModel data) {
         this.data = data;
         avater.setImageURI(Uri.parse(data.getEzContentData().getUserHeaderImageName()));
         name.setText(data.getEzContentData().getUserNameText());
@@ -115,7 +118,7 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
         gridLayout.removeAllViews();
         for(int i = 0 ; i < data.getEzContentData().getImageArray().size() ; i ++){
             String imageUrl = data.getEzContentData().getImageArray().get(i);
-            View convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_drawee, gridLayout, false);
+            final View convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_drawee, gridLayout, false);
             convertView.setTag(i);
             GridLayout.LayoutParams lp = (GridLayout.LayoutParams) convertView.getLayoutParams();
             lp.width = (viewWidth - 2 * margin) / 3;
@@ -123,7 +126,18 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
             lp.setMargins(margin / 2, margin / 2, margin / 2, margin / 2);
             gridLayout.addView(convertView);
             ((SimpleDraweeView) convertView).setImageURI(Uri.parse(imageUrl));
+            convertView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), PhotoActivity1.class);
+                    intent.putExtra("images",(Serializable)data.getEzContentData().getImageArray());
+                    intent.putExtra("ID",(int)convertView.getTag());
+                    intent.putExtra("type",FRIEND_PIC);
+                    getContext().startActivity(intent);
+                }
+            });
         }
+
 
 
 

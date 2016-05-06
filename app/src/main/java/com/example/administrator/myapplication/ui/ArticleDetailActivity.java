@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.example.administrator.myapplication.util.DeviceUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,14 +124,26 @@ public class ArticleDetailActivity extends BackBaseActivity {
         content.setText(allcontent);
 
         gridLayout.removeAllViews();
-        for (String imageUrl : data.getEzContentData().getImageArray()) {
-            View convertView = LayoutInflater.from(this).inflate(R.layout.item_drawee, gridLayout, false);
+        for(int i = 0 ; i < data.getEzContentData().getImageArray().size() ; i ++){
+            String imageUrl = data.getEzContentData().getImageArray().get(i);
+            final View convertView = LayoutInflater.from(this).inflate(R.layout.item_drawee, gridLayout, false);
             GridLayout.LayoutParams lp = (GridLayout.LayoutParams) convertView.getLayoutParams();
+            convertView.setTag(i);
             lp.width = (viewWidth - 2 * margin) / 3;
             lp.height = (viewWidth - 2 * margin) / 3;
             lp.setMargins(margin / 2, margin / 2, margin / 2, margin / 2);
             gridLayout.addView(convertView);
             ((SimpleDraweeView) convertView).setImageURI(Uri.parse(imageUrl));
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ArticleDetailActivity.this, PhotoActivity1.class);
+                    intent.putExtra("images",(Serializable)data.getEzContentData().getImageArray());
+                    intent.putExtra("ID",(int)convertView.getTag());
+                    intent.putExtra("type",1);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

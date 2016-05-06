@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -27,15 +28,26 @@ public class PhotoActivity1 extends BackBaseActivity {
     ViewPager viewpager;
     @Bind(R.id.count)
     TextView mCount;
-    private ArrayList<ImageItem> list;
+    private ArrayList<Object> list;
+    private int type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo1);
         Intent intent = getIntent();
-        list = (ArrayList<ImageItem>)intent.getSerializableExtra("images");
-        int count = intent.getIntExtra("ID", 0);
+        type = intent.getIntExtra("type",0);
+        int count = 0;
+        switch (type){
+            case 2:
+                list = (ArrayList<Object>) intent.getSerializableExtra("images");
+                count = intent.getIntExtra("ID", 0);
+                break;
+            case 1:
+                list = (ArrayList<Object>)intent.getSerializableExtra("images");
+                count = intent.getIntExtra("ID",0);
+                break;
+        }
         initView(count);
     }
 
@@ -87,9 +99,17 @@ public class PhotoActivity1 extends BackBaseActivity {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view = View.inflate(PhotoActivity1.this, R.layout.item_photo1, null);
             SimpleDraweeView simpleView = (SimpleDraweeView) view.findViewById(R.id.image);
-            final ImageItem item = list.get(position);
-            final String path = item.imagePath;
-            simpleView.setImageBitmap(Bimp.revitionImageSize(path));
+            switch (type){
+                case 2:
+                    final ImageItem item = (ImageItem) list.get(position);
+                    final String path = item.imagePath;
+                    simpleView.setImageBitmap(Bimp.revitionImageSize(path));
+                    break;
+                case 1:
+                    String imageUrl = (String) list.get(position);
+                    simpleView.setImageURI(Uri.parse(imageUrl));
+                    break;
+            }
             simpleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

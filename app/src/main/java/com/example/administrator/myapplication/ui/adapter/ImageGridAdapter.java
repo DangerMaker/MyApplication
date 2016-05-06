@@ -165,6 +165,7 @@ public class ImageGridAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(act, PhotoActivity1.class);
+				intent.putExtra("type",2);
 				intent.putExtra("images",(Serializable) dataList);
 				intent.putExtra("ID",position);
 				act.startActivity(intent);

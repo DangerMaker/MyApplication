@@ -109,7 +109,7 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s) && mGridView.getCount() == 0){
+                if(TextUtils.isEmpty(s)){
                     mSend.setTextColor(getResources().getColor(R.color.colorTextGray));
                     mSend.setBackgroundColor(getResources().getColor(R.color.gray_text));
                     if(mSend.isClickable())mSend.setClickable(false);
