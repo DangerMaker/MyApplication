@@ -12,6 +12,6 @@ import retrofit.http.POST;
  * Date: 2016-04-19
  */
 public interface ListApi {
-    @POST("/EZTableViewData.txt")
+    @POST("/text9.txt")
     void getNewsList(Callback<String> callback);
 }

@@ -10,6 +10,9 @@ import com.example.administrator.myapplication.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * BaseActivity是Activity的基类，添加些通用功能，绑定组件，还可以加友盟统计等
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Nullable

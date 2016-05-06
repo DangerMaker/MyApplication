@@ -16,6 +16,7 @@ import com.example.administrator.myapplication.ui.adapter.NewsListAdapter;
 import com.example.administrator.myapplication.ui.view.DividerLine;
 import com.example.administrator.myapplication.ui.view.PullToRefreshView;
 import com.example.administrator.myapplication.util.ActivityJumper;
+import com.example.administrator.myapplication.util.Json2EzAction;
 import com.example.administrator.myapplication.util.Json2Map;
 import com.example.administrator.myapplication.util.RestAdapterUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
@@ -67,8 +68,11 @@ public class ListViewFragment extends BaseLoadFragment<String> implements NewsLi
     @Override
     protected void onInitLoadData(String pageData) {
         hideEmptyView();
-        List<CustomItemModel> list = parseJson(pageData);
+        List<CustomItemModel> list = parseJsonNew(pageData);
         if (list != null) {
+            //6条数据
+            list.addAll(list);
+            list.addAll(list);
             adapter.updateItems(list);
         }
     }
@@ -88,41 +92,35 @@ public class ListViewFragment extends BaseLoadFragment<String> implements NewsLi
         RestAdapterUtils.getListApi().getNewsList(this);
     }
 
-    private List<CustomItemModel> parseJson(String json) {
+    private List<CustomItemModel> parseJsonNew(String json) {
         List<CustomItemModel> modelList = new ArrayList<>();
-        Gson gson = new Gson();
         try {
-            JSONObject object = new JSONObject(json);
-            JSONArray array = (JSONArray) object.get("list");
+            JSONArray array = new JSONArray(json);
             for (int i = 0; i < array.length(); i++) {
                 CustomItemModel itemModel = new CustomItemModel();
-                JSONObject itemObject = (JSONObject) array.get(i);
-                JSONObject actionObject = (JSONObject) itemObject.get("ezAction");
-                //EzAction
-                EzAction ezAction = gson.fromJson(actionObject.toString(), EzAction.class);
-                //EzMap
-                String ezMap = (String) itemObject.get("ezContentMap");
-                //EzContentData
-                JSONObject jsonData = (JSONObject) itemObject.get("ezContentData");
-
+                JSONObject object = (JSONObject)array.get(i);
                 Map<String, Object> map = new HashMap<>();
-                Iterator keyIter = jsonData.keys();
+                Iterator keyIter = object.keys();
                 JSONObject value = null;
                 while (keyIter.hasNext()) {
                     String key = (String) keyIter.next();
-                    if (jsonData.get(key) instanceof String) {
-                        map.put(key, jsonData.get(key));
+                    if (object.get(key) instanceof String) {
+                        if(key.equals("ezMap")){
+                            //set map
+                            itemModel.setEzContentMap(Json2Map.convert(object.get(key).toString()));
+                            continue;
+                        }else if(key.equals("ezAction")){
+                            // set action
+                            itemModel.setEzAction(Json2EzAction.convert(object.get(key).toString()));
+                        }
+                        map.put(key, object.get(key));
                     } else {
-                        value = (JSONObject) jsonData.get(key);
+                        value = (JSONObject) object.get(key);
                         map.put(key, value);
                     }
                 }
-                EzContentData ezContentData = new EzContentData();
-                ezContentData.setMap(map);
-                //add views
-                itemModel.setEzContentMap(Json2Map.convert(ezMap));
-                itemModel.setEzAction(ezAction);
-                itemModel.setEzContentData(ezContentData);
+                //set view
+                itemModel.setMap(map);
                 modelList.add(itemModel);
             }
             return modelList;

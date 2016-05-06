@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 /**
  * User: lyjq(1752095474)
  * Date: 2016-04-25
+ * 所有fragment的基类 绑定组件，getArguments
  */
 public abstract class BaseFragment extends Fragment {
 

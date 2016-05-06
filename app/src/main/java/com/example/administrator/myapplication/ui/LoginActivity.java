@@ -66,6 +66,11 @@ public class LoginActivity extends BackBaseActivity {
         loginload(username,password);
     }
 
+    @OnClick(R.id.login_to_register)
+    public void register(){
+        startActivity(new Intent(this,RegisterActivity.class));
+    }
+
     private void loginload(String username,String password) {
         if(TextUtils.isEmpty(username)){
             SystemUtils.show_msg(this,"用户名不能为空");
@@ -94,6 +99,11 @@ public class LoginActivity extends BackBaseActivity {
     }
 
     private void finishLogin(User user,Response response){
+
+        if(mNameEdit == null || mPassEdit == null){
+            return;
+        }
+
         UserService.getInstance(this).signIn(mNameEdit.getText().toString(), mPassEdit.getText().toString(), User2UserData.transfrom(user));
         String headers = null;
         for (int i = 0; i < response.getHeaders().size(); i++) {
