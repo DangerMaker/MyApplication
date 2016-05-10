@@ -27,30 +27,50 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.example.administrator.myapplication.Config;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.model.Bimp;
 import com.example.administrator.myapplication.ui.view.Emotion_ViewPager;
 import com.example.administrator.myapplication.ui.view.SelectPopupWindow;
 import com.example.administrator.myapplication.util.FileUtils;
+import com.example.administrator.myapplication.util.RestAdapterUtils;
 import com.example.administrator.myapplication.util.SystemUtils;
+
 import java.io.File;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
+/**
+ * 发表动态界面
+ */
 public class PublishedActivity extends BackBaseActivity implements View.OnClickListener {
+    private static final int LOCATION_CODE = 4;
+    @Bind(R.id.add_location)
+    TextView location;
     private GridAdapter adapter;
     private int mPicWidth;
     @Bind(R.id.noScrollgridview)
@@ -69,9 +89,27 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     TextView mSend;
     @Bind(R.id.username)
     TextView mUserName;
+    @Bind(R.id.add_branch)
+    TextView mBranch;
 
+
+    private static final int TAKE_PICTURE = 2;
+    private static final int ADD_MODLE = 0;
+    private String path = "";
     private boolean isKeyShow = true;
     private SelectPopupWindow menuWindow;
+    private String[] dialogString = {"无线事业部", "IOS", "ANDROID", "PHP", "J2EE", "HTML5"};
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,14 +147,14 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s)){
+                if (TextUtils.isEmpty(s)) {
                     mSend.setTextColor(getResources().getColor(R.color.colorTextGray));
                     mSend.setBackgroundColor(getResources().getColor(R.color.gray_text));
-                    if(mSend.isClickable())mSend.setClickable(false);
-                }else{
+                    if (mSend.isClickable()) mSend.setClickable(false);
+                } else {
                     mSend.setTextColor(getResources().getColor(R.color.colorWhite));
                     mSend.setBackgroundColor(getResources().getColor(R.color.orange));
-                    if(!mSend.isClickable())mSend.setClickable(true);
+                    if (!mSend.isClickable()) mSend.setClickable(true);
                 }
             }
         });
@@ -144,20 +182,19 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        if(!TextUtils.isEmpty(Config.username)) mUserName.setText(Config.username);
+        if (Config.user != null) mUserName.setText(Config.user.getName());
     }
 
     private void fromCamera() {
         String sdStatus = Environment.getExternalStorageState();
         if (!TextUtils.equals(sdStatus, Environment.MEDIA_MOUNTED)) {
             SystemUtils.show_msg(PublishedActivity.this, "未检测到SD卡");
-            //检测sdcard
             return;
         }
-        File file = new File(FileUtils.IMAGES , String.valueOf(System.currentTimeMillis()) + ".png");
+        File file = new File(FileUtils.SDPATH, String.valueOf(System.currentTimeMillis()) + ".png");
         path = file.getPath();
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(file));
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
@@ -242,18 +279,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
             public ImageView image;
         }
 
-        Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        //刷新GridView列表
-                        adapter.notifyDataSetChanged();
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
-
         public void loading() {
             new Thread(new Runnable() {
                 public void run() {
@@ -287,15 +312,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         }
     }
 
-    public String getString(String s) {
-        String path = null;
-        if (s == null)
-            return "";
-        for (int i = s.length() - 1; i > 0; i++) {
-            s.charAt(i);
-        }
-        return path;
-    }
 
     protected void onRestart() {
         adapter.update();
@@ -305,26 +321,27 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         super.onRestart();
     }
 
-    private static final int TAKE_PICTURE = 2;
-    private static final int ADD_MODLE = 0;
-    private String path = "";
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            switch (requestCode) {
-                case TAKE_PICTURE:
-                    System.out.println(path);
-                    if (path != null) {
-                        if (Bimp.drr.size() < 9) {
-                            Bimp.drr.add(path);
-                        }
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (path != null) {
+                    if (Bimp.drr.size() < 9) {
+                        Bimp.drr.add(path);
                     }
-                    break;
-                case ADD_MODLE:
+                }
+                break;
+            case ADD_MODLE:
 
-                    break;
+                break;
+
+            case LOCATION_CODE :
+               if(resultCode == 3){
+                   String title = data.getStringExtra("title");
+                   location.setText(title);
+               }
+                break;
         }
     }
 
@@ -348,15 +365,16 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         mAddMoreGrid.setVisibility(View.GONE);
         selectPic();
     }
+
     //强制隐藏键盘
-    public void hideInput(){
+    public void hideInput() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mComment.getWindowToken(), 0);
     }
 
     private void selectPic() {
         View v = this.getLayoutInflater().inflate(R.layout.item_user_center_edit_avatar, null);
-        menuWindow = new SelectPopupWindow(root,this, v);
+        menuWindow = new SelectPopupWindow(root, this, v);
         v.findViewById(R.id.btn_take_photo).setOnClickListener(this);
         v.findViewById(R.id.btn_pick_photo).setOnClickListener(this);
     }
@@ -384,55 +402,77 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
         }
     }
 
+
+
     @OnClick(R.id.add_location)
-    public void addLocation(){
-        //TODO
-        SystemUtils.show_msg(PublishedActivity.this,"显示位置吗?");
+    public void addLocation() {
+        //启动定位
+        startActivityForResult(new Intent(PublishedActivity.this,LocationActivity.class),LOCATION_CODE);
     }
 
+
+
     @OnClick(R.id.add_branch)
-    public void addBranch(){
-        //TODO
-        SystemUtils.show_msg(PublishedActivity.this,"选择部门标签");
+    public void addBranch() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        ListView listView = new ListView(this);
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dialogString));
+        final AlertDialog dialog = builder.setView(listView).show();
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mBranch.setText(dialogString[position]);
+                dialog.dismiss();
+            }
+        });
     }
 
     @OnClick(R.id.add_modle)
-    public void addModle(){
-        startActivityForResult(new Intent(PublishedActivity.this,ModleActivity.class),ADD_MODLE);
+    public void addModle() {
+        startActivityForResult(new Intent(PublishedActivity.this, ModleActivity.class), ADD_MODLE);
     }
-
 
     @OnClick(R.id.activity_selectimg_send)
     public void send() {
-        if(TextUtils.isEmpty(Config.username)){
-            startActivity(new Intent(PublishedActivity.this,LoginActivity.class));
+        hideInput();
+        if (Config.user == null) {
+            startActivity(new Intent(PublishedActivity.this, LoginActivity.class));
             return;
         }
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (int i = 0; i < Bimp.drr.size(); i++) {
             String Str = Bimp.drr.get(i).substring(
                     Bimp.drr.get(i).lastIndexOf("/") + 1,
                     Bimp.drr.get(i).lastIndexOf("."));
             list.add(FileUtils.SDPATH + Str + ".JPEG");
         }
-        SystemUtils.show_msg(this,"发送动态");
+        SystemUtils.show_msg(this, "发送动态");
         String comment = mComment.getText().toString();
         // 高清的压缩图片路径全部就在  list 里面
         // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
+        File file = new File(list.get(0));
+        TypedFile typedFile = new TypedFile("application/octet-stream", file);
+        RestAdapterUtils.getUserApi().upFile(Config.token, Config.cookie, file.getName(), typedFile, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Bimp.bmp = null;
+                Bimp.drr = null;
+                Bimp.max = 0;
+                FileUtils.deleteDir();
+                SystemUtils.show_msg(PublishedActivity.this, s);
+            }
 
-
-        // 完成上传服务器后,删除存放图片的目录;
-        Bimp.bmp = null;
-        Bimp.drr = null;
-        FileUtils.deleteDir();
+            @Override
+            public void failure(RetrofitError error) {
+                SystemUtils.show_msg(PublishedActivity.this, error.toString());
+            }
+        });
     }
 
-    boolean isExit = false;
-
     @OnClick(R.id.cancle)
-    public void cancle(){
+    public void cancle() {
 //        if(TextUtils.isEmpty(mComment.getText().toString()) && Bimp.bmp.size() == 0  ){
-            finish();
+        finish();
 //        }else {
 //            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //            View view = LayoutInflater.from(this).inflate(R.layout.layout_dialog_save_comment,null);
@@ -443,12 +483,6 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
 //            save.setOnClickListener(this);
 //            builder.show();
 //        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 
     @Override
@@ -467,14 +501,12 @@ public class PublishedActivity extends BackBaseActivity implements View.OnClickL
                 mAddMoreGrid.setVisibility(View.GONE);
                 break;
 
-            case R.id.no_save:
-                finish();
-                break;
-            case R.id.save:
-                //TODO save
-                SystemUtils.show_msg(PublishedActivity.this,"已保存在草稿箱,你可以在个人页面查看!");
-                finish();
-                break;
+//            case R.id.no_save:
+//                finish();
+//                break;
+//            case R.id.save:
+//                finish();
+//                break;
         }
     }
 

@@ -140,6 +140,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/note_item_more_bg_normal"
                 android:layout_marginRight="10dp"
+                android:id="@+id/more"
                 />
         </LinearLayout>
         <LinearLayout

@@ -192,7 +192,7 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
     public void createCode(){
         //TODO  生成二维码
         Bitmap bitmap = CodeCreator.createQRCode(user.getName(),user.getUid(),user.getMail());
-        FileUtils.saveScanBitmap(bitmap,user.getUid().toString());
+        FileUtils.saveBitmap(bitmap,user.getUid().toString());
         if(bitmap != null){
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_scan_code_bitmap,null);
             ImageView scanBitmap = (ImageView) view.findViewById(R.id.iv_scan_bitmap);
@@ -228,7 +228,7 @@ public class PersonCenterFragment extends BaseFragment implements View.OnClickLi
                 if (list != null) {
                     SystemUtils.show_msg(getActivity(), "登出成功");
                     UserService.getInstance(getActivity()).logout();
-                    Config.username = null;
+                    Config.user = null;
                 }
                 //登出成功,跳转到登录页面
                 startActivity(new Intent(getActivity(),LoginActivity.class));

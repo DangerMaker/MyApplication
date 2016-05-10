@@ -20,7 +20,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
+/**
+ * 发帖界面的图片详情界面
+ * */
 public class PhotoActivity extends BackBaseActivity {
 
     @Bind(R.id.viewpager)
@@ -30,10 +32,12 @@ public class PhotoActivity extends BackBaseActivity {
     private ArrayList<View> listViews = null;
     private PhotoPageAdapter adapter;
     private int count;
-
-    public List<Bitmap> bmp = new ArrayList<Bitmap>();
-    public List<String> drr = new ArrayList<String>();
-    public List<String> del = new ArrayList<String>();
+    //图片Bitmap对象集合
+    public List<Bitmap> bmp = new ArrayList<>();
+    //图片路径集合
+    public List<String> drr = new ArrayList<>();
+    //要删除图片的集合
+    public List<String> del = new ArrayList<>();
     public int max;
 
 

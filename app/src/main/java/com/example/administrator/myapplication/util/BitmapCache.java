@@ -29,10 +29,15 @@ public class BitmapCache extends Activity {
 		}
 	}
 
+
+	/**
+	 * thumbPath : 缩略图路径
+	 * sourcePath : 原图路径
+	 * callback : 自定义回调接口
+	 * */
 	public void displayBmp(final ImageView iv, final String thumbPath,
 						   final String sourcePath, final ImageCallback callback) {
 		if (TextUtils.isEmpty(thumbPath) && TextUtils.isEmpty(sourcePath)) {
-			Log.e(TAG, "no paths pass in");
 			return;
 		}
 
@@ -63,11 +68,8 @@ public class BitmapCache extends Activity {
 		iv.setImageBitmap(null);
 
 		new Thread() {
-
 			Bitmap thumb;
-
 			public void run() {
-
 				try {
 					if (isThumbPath) {
 						thumb = BitmapFactory.decodeFile(thumbPath);
@@ -78,7 +80,7 @@ public class BitmapCache extends Activity {
 						thumb = revitionImageSize(sourcePath);											
 					}
 				} catch (Exception e) {
-					
+					e.printStackTrace();
 				}
 				if (thumb == null) {
 					thumb = ImageGridActivity.bimap;
@@ -99,6 +101,7 @@ public class BitmapCache extends Activity {
 
 	}
 
+    //将原图修正为缩略图
 	public Bitmap revitionImageSize(String path) throws IOException {
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(
 				new File(path)));

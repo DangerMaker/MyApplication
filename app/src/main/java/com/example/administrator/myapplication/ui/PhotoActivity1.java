@@ -21,6 +21,7 @@ import butterknife.Bind;
 
 /**
  * Created by shand on 2016/5/5.
+ * 图片详情界面
  */
 public class PhotoActivity1 extends BackBaseActivity {
 
@@ -28,6 +29,8 @@ public class PhotoActivity1 extends BackBaseActivity {
     ViewPager viewpager;
     @Bind(R.id.count)
     TextView mCount;
+
+    //用Object接收,下面强转即可
     private ArrayList<Object> list;
     private int type;
 
@@ -36,6 +39,7 @@ public class PhotoActivity1 extends BackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo1);
         Intent intent = getIntent();
+        //type   区分是哪个Activity传递过来的图片(path或者url)
         type = intent.getIntExtra("type",0);
         int count = 0;
         switch (type){
@@ -99,6 +103,7 @@ public class PhotoActivity1 extends BackBaseActivity {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view = View.inflate(PhotoActivity1.this, R.layout.item_photo1, null);
             SimpleDraweeView simpleView = (SimpleDraweeView) view.findViewById(R.id.image);
+
             switch (type){
                 case 2:
                     final ImageItem item = (ImageItem) list.get(position);

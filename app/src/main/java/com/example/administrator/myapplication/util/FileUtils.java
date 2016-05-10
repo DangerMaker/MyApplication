@@ -21,21 +21,15 @@ import java.util.HashMap;
 
 public class FileUtils {
 	
-	public static String SDPATH = Environment.getExternalStorageDirectory()
+	public static String SDPATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()
 			+ "/formats/";
 
-	public static String IMAGES = Environment.getExternalStorageDirectory()
-			+ "/myimage/";
-
-	public static String getFilePuth(){
-		return SDPATH;
-	}
-
 	public static void saveBitmap(Bitmap bm, String picName) {
+		if(bm == null) return;
 		Log.e("", "保存图片");
 		try {
 			if (!isFileExist("")) {
-				createSDDir("");
+				File tempf = createSDDir("");
 			}
 			File f = new File(SDPATH, picName + ".JPEG");
 			if (f.exists()) {
@@ -53,24 +47,11 @@ public class FileUtils {
 		}
 	}
 
-	public static void saveScanBitmap(Bitmap bm,String sacnName){
-		File file = new File(IMAGES + sacnName+".PNG");
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			bm.compress(Bitmap.CompressFormat.PNG,0,fos);
-			fos.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static File createSDDir(String dirName) throws IOException {
+	private static File createSDDir(String dirName) throws IOException {
 		File dir = new File(SDPATH + dirName);
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
+				dir.mkdir();
 		}
 		return dir;
 	}
@@ -103,20 +84,7 @@ public class FileUtils {
 		dir.delete();// 删除目录本身
 	}
 
-	public static boolean fileIsExists(String path) {
-		try {
-			File f = new File(path);
-			if (!f.exists()) {
-				return false;
-			}
-		} catch (Exception e) {
-
-			return false;
-		}
-		return true;
-	}
-
-	public static HashMap<String, Integer> emo_map = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> emo_map = new HashMap<>();
 	// public static final String[] EMOS = new String[] { "微笑", "呲牙", "色", "发呆",
 	// "得意", "大哭", "害羞", "闭嘴", "睡", "流泪", "尴尬", "发怒", "调皮", "大笑", "惊讶",
 	// "委屈", "冷汗", "抓狂", "吐", "偷笑", "傲慢", "困", "憨笑", "敲打", "抠鼻", "鼓掌",

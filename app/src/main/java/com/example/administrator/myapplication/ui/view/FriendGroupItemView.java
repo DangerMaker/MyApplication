@@ -1,12 +1,18 @@
 package com.example.administrator.myapplication.ui.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -82,6 +88,7 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
     @Bind(R.id.linearComment)
     LinearLayout linearComment;
 
+    private String[] dialogString = {"拉黑","举报","特别关注","帮上头条","屏蔽","收藏"};
 
     public FriendGroupItemView(Context context) {
         super(context);
@@ -181,6 +188,9 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
         }else {
             linearComment.setVisibility(GONE);
         }
+
+
+
     }
 
     @Override
@@ -223,6 +233,22 @@ public class FriendGroupItemView extends RelativeLayout implements View.OnClickL
             isPraise = true;
         }
         zan.setText(zanNumber+"");
+    }
+
+    @OnClick(R.id.more)
+    public void more(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ListView listView = new ListView(context);
+        listView.setBackgroundColor(Color.WHITE);
+        listView.setAdapter(new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,dialogString));
+        final AlertDialog dialog = builder.setView(listView).show();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+                SystemUtils.show_msg(context,dialogString[position]);
+            }
+        });
     }
 
     @OnClick(R.id.image)

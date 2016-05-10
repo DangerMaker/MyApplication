@@ -1,5 +1,8 @@
 package com.example.administrator.myapplication;
 
+
+import com.example.administrator.myapplication.model.User;
+
 /**
  * Created by Administrator on 2016/4/12.
  */
@@ -14,6 +17,7 @@ public class Config {
     public static String cookie = null;
     public static String uid = null;
     public static String token = null;
+    public static User user = null;
 
     //cell 类型
     public final static int NORMAL = 1;

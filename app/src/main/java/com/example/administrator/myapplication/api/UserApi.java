@@ -9,6 +9,7 @@ import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -20,6 +21,7 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.QueryMap;
 import retrofit.mime.TypedFile;
 
 /**
@@ -99,5 +101,4 @@ public interface UserApi {
             @Part("filename") String filename,
             @Part("file") TypedFile file,
             Callback<String> callback);
-
 }

@@ -29,10 +29,9 @@ public class AlbumHelper {
 	ContentResolver cr;
 
 	// 缩略图列表
-	HashMap<String, String> thumbnailList = new HashMap<String, String>();
+	HashMap<String, String> thumbnailList = new HashMap<>();
 	// 专辑列表
-	List<HashMap<String, String>> albumList = new ArrayList<HashMap<String, String>>();
-	HashMap<String, ImageBucket> bucketList = new HashMap<String, ImageBucket>();
+	HashMap<String, ImageBucket> bucketList = new HashMap<>();
 
 	private static AlbumHelper instance;
 
@@ -76,15 +75,12 @@ public class AlbumHelper {
 	 */
 	private void getThumbnailColumnData(Cursor cur) {
 		if (cur.moveToFirst()) {
-			int _id;
 			int image_id;
 			String image_path;
-			int _idColumn = cur.getColumnIndex(Thumbnails._ID);
 			int image_idColumn = cur.getColumnIndex(Thumbnails.IMAGE_ID);
 			int dataColumn = cur.getColumnIndex(Thumbnails.DATA);
 
 			do {
-				_id = cur.getInt(_idColumn);
 				image_id = cur.getInt(image_idColumn);
 				image_path = cur.getString(dataColumn);
 				thumbnailList.put("" + image_id, image_path);
@@ -125,8 +121,6 @@ public class AlbumHelper {
 			int bucketIdIndex = cur.getColumnIndexOrThrow(Media.BUCKET_ID);
 			int picasaIdIndex = cur.getColumnIndexOrThrow(Media.PICASA_ID);
 			// 获取图片总数
-			int totalNum = cur.getCount();
-
 			do {
 				String _id = cur.getString(photoIDIndex);
 				String name = cur.getString(photoNameIndex);
@@ -146,7 +140,7 @@ public class AlbumHelper {
 				if (bucket == null) {
 					bucket = new ImageBucket();
 					bucketList.put(bucketId, bucket);
-					bucket.imageList = new ArrayList<ImageItem>();
+					bucket.imageList = new ArrayList<>();
 					bucket.bucketName = bucketName;
 				}
 				bucket.count++;
@@ -162,8 +156,7 @@ public class AlbumHelper {
 		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet()
 				.iterator();
 		while (itr.hasNext()) {
-			Entry<String, ImageBucket> entry = (Entry<String, ImageBucket>) itr
-					.next();
+			Entry<String, ImageBucket> entry = itr.next();
 			ImageBucket bucket = entry.getValue();
 			Log.d(TAG, entry.getKey() + ", " + bucket.bucketName + ", "
 					+ bucket.count + " ---------- ");
@@ -188,12 +181,11 @@ public class AlbumHelper {
 		if (refresh || (!refresh && !hasBuildImagesBucketList)) {
 			buildImagesBucketList();
 		}
-		List<ImageBucket> tmpList = new ArrayList<ImageBucket>();
+		List<ImageBucket> tmpList = new ArrayList<>();
 		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet()
 				.iterator();
 		while (itr.hasNext()) {
-			Entry<String, ImageBucket> entry = (Entry<String, ImageBucket>) itr
-					.next();
+			Entry<String, ImageBucket> entry = itr.next();
 			tmpList.add(entry.getValue());
 		}
 		return tmpList;

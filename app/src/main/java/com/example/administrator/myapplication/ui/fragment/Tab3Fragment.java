@@ -37,7 +37,7 @@ public class Tab3Fragment extends BaseFragment implements ScrollableHelper.Scrol
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArticlePraiseAdapter adapter = new ArticlePraiseAdapter(getActivity(),getActivity().getLayoutInflater());
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for(int i = 0;i< 10;i++){
             list.add(i+"觉得很赞");
         }

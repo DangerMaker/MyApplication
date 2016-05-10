@@ -87,6 +87,7 @@ public class LoginActivity extends BackBaseActivity {
                 if (loginSuc != null) {
                     SystemUtils.show_msg(LoginActivity.this, "登录成功");
                     Config.token = loginSuc.getToken();
+                    Config.user = loginSuc.getUser();
                     finishLogin(loginSuc.getUser(),response);
                 }
             }
@@ -117,7 +118,6 @@ public class LoginActivity extends BackBaseActivity {
 
         Config.uid = user.getUid();
         Config.cookie = headers;
-        Config.username = user.getName();
         finish();
     }
 }

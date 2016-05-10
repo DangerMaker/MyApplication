@@ -23,6 +23,7 @@ import com.example.administrator.myapplication.model.ImageBucket;
 import com.example.administrator.myapplication.model.ImageItem;
 import com.example.administrator.myapplication.ui.adapter.ImageGridAdapter;
 import com.example.administrator.myapplication.util.AlbumHelper;
+import com.example.administrator.myapplication.util.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ImageGridActivity extends BackBaseActivity implements OnClickListener {
-    public static final String EXTRA_IMAGE_LIST = "imagelist";
     List<ImageBucket> imageBuckets;
 	List<ImageItem> dataList;
     ImageGridAdapter adapter;
@@ -45,7 +45,7 @@ public class ImageGridActivity extends BackBaseActivity implements OnClickListen
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    Toast.makeText(ImageGridActivity.this, "最多选择9张图片", Toast.LENGTH_SHORT).show();
+                    SystemUtils.show_msg(ImageGridActivity.this,"最多选择9张图片");
                     break;
             }
         }
@@ -61,12 +61,14 @@ public class ImageGridActivity extends BackBaseActivity implements OnClickListen
         setContentView(R.layout.activity_image_grid);
         setCustomTitle("相册胶卷");
         helper = AlbumHelper.getHelper();
+        //初始化帮助类
         helper.init(getApplicationContext());
         initData();
         initView();
     }
 
     private void initData() {
+        //获取相册的所有图片
         imageBuckets = helper.getImagesBucketList(false);
         dataList = new ArrayList<>();
         for(ImageBucket bucket : imageBuckets){

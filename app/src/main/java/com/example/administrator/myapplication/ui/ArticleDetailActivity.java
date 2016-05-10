@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * User: lyjq(1752095474)
@@ -59,11 +65,13 @@ public class ArticleDetailActivity extends BackBaseActivity {
     @Bind(R.id.shrink)
     TextView shrink;
 
+
     FriendGroupItemModel data;
     String allcontent;
     int viewWidth;
     int margin;
     ArrayList<BaseFragment> fragmentList = new ArrayList<>();
+    private String[] dialogString = {"举报","帮上头条","收藏","分享"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,5 +182,21 @@ public class ArticleDetailActivity extends BackBaseActivity {
         public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
+    }
+
+
+    @OnClick(R.id.more)
+    public void more(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        ListView listView = new ListView(ArticleDetailActivity.this);
+        listView.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,dialogString));
+       final AlertDialog dialog = builder.setView(listView).show();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+                SystemUtils.show_msg(ArticleDetailActivity.this,dialogString[position]);
+            }
+        });
     }
 }

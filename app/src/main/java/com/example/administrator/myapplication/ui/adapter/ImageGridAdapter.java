@@ -116,6 +116,7 @@ public class ImageGridAdapter extends BaseAdapter {
 		holder.iv.setTag(item.imagePath);
 		cache.displayBmp(holder.iv, item.thumbnailPath, item.imagePath,
 				callback);
+
 		holder.selected.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

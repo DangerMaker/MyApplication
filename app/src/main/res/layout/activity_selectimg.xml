@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.administrator.myapplication.ui.TestPicActivity"
     android:layout_height="match_parent"
     android:id="@+id/root"
     android:background="@color/colorWhite"
@@ -108,11 +107,12 @@
                 android:layout_height="25dp">
                 <TextView
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:id="@+id/add_location"
                     android:layout_alignParentLeft="true"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:drawableLeft="@drawable/selector_location"
                     android:text="显示位置"
                     android:textColor="@color/colorPrimaryDark"
